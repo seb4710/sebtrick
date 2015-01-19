@@ -9,8 +9,10 @@ public class FlightCombo {
     private Flight flight1;
     private Flight flight2;
     
-    private int duration;
-    private float fee;
+    private int duration1;
+    private int duration2;
+    private float fee1;
+    private float fee2;
 	
     /**
      * Constructor for DIRECT flight
@@ -20,8 +22,10 @@ public class FlightCombo {
     	this.flight1 = flight;
     	this.flight2 = null;
     	
-    	duration = calcDuration();
-    	fee = calcFee();
+    	duration1 = calcDuration(flight1);
+    	duration2 = 0;
+    	fee1 = calcFee(flight1);
+    	fee2 = 0.0f;
 	}
     
     /**
@@ -33,8 +37,11 @@ public class FlightCombo {
     	this.flight1 = flight1;
     	this.flight2 = flight2;
     	
-    	duration = calcDuration();
-    	fee = calcFee();
+    	duration1 = calcDuration(flight1);
+    	duration2 = calcDuration(flight2);
+    	
+    	fee1 = calcFee(flight1);
+    	fee2 = calcFee(flight2) - 10.0f;	// Service fee is just for the first Flight
 	}
     
     /* Helper Methods */
@@ -43,25 +50,14 @@ public class FlightCombo {
      * Calculates the duration for the flight
      * @return duration for flight
      */
-    private int calcDuration() {
+    private int calcDuration(Flight flight) {
 		int time = 0;
 		
-		int hours1;
-		int hours2;
-		int minutes1;
-		int minutes2;
+		int hours1 = (int) (flight.getDepartureTime().getTimeOfDay() / 100);
+		int minutes1 = (int) (flight.getDepartureTime().getTimeOfDay() % 100);
+		int hours2 = (int) (flight.getArrivalTime().getTimeOfDay() / 100);
+		int minutes2 = (int) (flight.getArrivalTime().getTimeOfDay() % 100);
 		
-		minutes1 = (int) (flight1.getDepartureTime().getTimeOfDay() % 100);
-		hours1 = (int) (flight1.getDepartureTime().getTimeOfDay() / 100);
-		
-		if(flight2 != null) {
-			minutes2 = (int) (flight2.getArrivalTime().getTimeOfDay() % 100);
-			hours2 = (int) (flight2.getArrivalTime().getTimeOfDay() / 100);
-		} else {
-			minutes2 = (int) (flight1.getArrivalTime().getTimeOfDay() % 100);
-			hours2 = (int) (flight1.getArrivalTime().getTimeOfDay() / 100);
-		}
-	
 		time = (hours2 -  hours1) * 100;
 		
 		if(minutes2 < minutes1) {
@@ -79,11 +75,20 @@ public class FlightCombo {
      * Calculates the fee for the given flight
      * @return fee for flight
      */
-	private float calcFee() {
-
-		//TODO implement logic!!
+	private float calcFee(Flight flight) {
+		float sum = 10.0f;	// Service fee
 		
-		return 1234.56f;
+		try {
+			// random cost multiplicator for flight duration
+			sum += flight.getStdFee().floatValue();
+			
+			sum += flight.getDepartesFrom().getAirportTax().floatValue();
+			sum += flight.getArrivesAt().getAirportTax().floatValue();
+		} catch(NullPointerException e) {
+			System.out.println("No Airport Tax found for Flight" + flight.getFlightId());
+		}
+		
+		return sum;
 	}
     
     /* Getter Methods*/
@@ -119,11 +124,48 @@ public class FlightCombo {
 		else
 			return flight2.getFlightId();
 	}
-	public int getDuration() {
-		return duration;
+	public int getDuration_Total() {
+		int time = 0;
+		
+		int hours1 = (int) (flight1.getDepartureTime().getTimeOfDay() / 100);
+		int minutes1 = (int) (flight1.getDepartureTime().getTimeOfDay() % 100);
+		int hours2;
+		int minutes2;
+		
+		if(flight2 != null) {
+			minutes2 = (int) (flight2.getArrivalTime().getTimeOfDay() % 100);
+			hours2 = (int) (flight2.getArrivalTime().getTimeOfDay() / 100);
+		} else {
+			minutes2 = (int) (flight1.getArrivalTime().getTimeOfDay() % 100);
+			hours2 = (int) (flight1.getArrivalTime().getTimeOfDay() / 100);
+		}
+	
+		time = (hours2 -  hours1) * 100;
+		
+		if(minutes2 < minutes1) {
+			time -= 100;
+			time += (60 - minutes1);
+			time += minutes2;
+		} else {
+			time += (minutes2 - minutes1);			
+		}
+		
+		return time;
 	}
-	public float getFee() {
-		return fee;
+	public int getDuration_First() {
+		return duration1;
+	}
+	public int getDuration_Second() {
+		return duration2;
+	}
+	public float getFee_Total() {
+		return fee1 + fee2;
+	}
+	public float getFee_First() {
+		return fee1;
+	}
+	public float getFee_Second() {
+		return fee2;
 	}
 	
 }

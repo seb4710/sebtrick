@@ -1,5 +1,7 @@
 package at.jku.ce.airline.business;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,53 +16,88 @@ public class FlightHandler {
 
 	public static long MAX_WAITING_TIME = 360;	// refers to 6 hours in minutes
 	
-	private static FlightHandler instance;
-	
 	private FlightController controller;
 	private Set<Airport> airports;
 	private Map<String, Airport> airportMap;
 	
-	public enum FlightSorter {
-		NAME, DURATION;
-	}
-	
+	/**
+	 * Constructor
+	 */
 	public FlightHandler() {
 		super();
 		controller = new FlightController();
 		initialize();
 	}
 	
+	/**
+	 * Initialises the new instance:
+	 * - get all airports
+	 * - map all airports with its ICAOs
+	 */
 	private void initialize() {
-		airportMap = new HashMap<String, Airport>();
-		
 		airports = controller.getAllAirports();
+		airportMap = new HashMap<String, Airport>();
 		
 		for(Airport port : airports)
 			airportMap.put(port.getIcao(), port);
 	}
 
-	public List<FlightCombo> getAllFlights(String departureIcao, String arrivalIcao) {
+	/**
+	 * Get all FlightCombos (direct and one-stop) for the given route - optionally sorted;
+	 * @param departureIcao: ICAO of the departing airport
+	 * @param arrivalIcao: ICAO of the arriving airport
+	 * @param sort: optional parameter for sorting the returned list of FlightCombo
+	 * @return all corresponding flights
+	 */
+	public List<FlightCombo> getAllFlights(String departureIcao, String arrivalIcao, String sort) {
 		List<FlightCombo> list = new LinkedList<FlightCombo>();
 		
 		// add all direct flights 
-		list.addAll(getDirectFlights(departureIcao, arrivalIcao));
+		list.addAll(getDirectFlights(departureIcao, arrivalIcao, null));
 		
 		// add all flights with one stop
 		list.addAll(getOneStopFlights(departureIcao, arrivalIcao));
 		
+		// is null if parameter 'sort' is invalid
+		Comparator<FlightCombo> comparator = getComparator(sort);
+		
+		// sort list according to parameter
+		if(comparator != null)
+			Collections.sort(list, comparator);
+		
 		return list;
 	}
 	
-	public List<FlightCombo> getDirectFlights(String departureIcao, String arrivalIcao) {
+	/**
+	 * Get all DIRECT FlightCombos (no one-stop) for the given route - optionally sorted;
+	 * @param departureIcao: ICAO of the departing airport
+	 * @param arrivalIcao: ICAO of the arriving airport
+	 * @param sort: optional parameter for sorting the returned list of FlightCombo
+	 * @return all corresponding flights
+	 */
+	public List<FlightCombo> getDirectFlights(String departureIcao, String arrivalIcao, String sort) {
 		List<FlightCombo> flights = new LinkedList<FlightCombo>();
 		List<Flight> direct = controller.getFlights(getAirport(departureIcao), getAirport(arrivalIcao));
 		
 		for(Flight f : direct)
 			flights.add(new FlightCombo(f));
 		
+		// is null if parameter 'sort' is invalid
+		Comparator<FlightCombo> comparator = getComparator(sort);
+		
+		// sort list according to parameter
+		if(comparator != null)
+			Collections.sort(flights, comparator);
+		
 		return flights;
 	}
 	
+	/**
+	 * Get all ONE-STOP FlightCombos (no direct) for the given route - optionally sorted;
+	 * @param departureIcao: ICAO of the departing airport
+	 * @param arrivalIcao: ICAO of the arriving airport
+	 * @return all corresponding flights
+	 */
 	private List<FlightCombo> getOneStopFlights(String departureIcao, String arrivalIcao) {
 			List<FlightCombo> flights = new LinkedList<FlightCombo>();
 			List<Flight> listOfDep = controller.getFlightsWithDeparture(getAirport(departureIcao));
@@ -87,6 +124,39 @@ public class FlightHandler {
 	
 	public Set<Airport> getAirports() {
 		return airports;
+	}
+	
+	private Comparator<FlightCombo> getComparator(String sort) {
+		if(sort == null) {
+			return null;
+		} else {
+			if(sort.equals("duration"))
+				return new Comparator<FlightCombo>() {
+
+					public int compare(FlightCombo o1, FlightCombo o2) {
+						if(o1.getDuration_Total() > o2.getDuration_Total())
+							return 1;
+						if(o1.getDuration_Total() < o2.getDuration_Total())
+							return -1;
+						
+						return 0;
+					}
+				};
+			else if(sort.equals("fee"))
+				return new Comparator<FlightCombo>() {
+
+					public int compare(FlightCombo o1, FlightCombo o2) {
+						if(o1.getFee_Total() > o2.getFee_Total())
+							return 1;
+						if(o1.getFee_Total() < o2.getFee_Total())
+							return -1;
+						
+						return 0;
+					}
+				};
+			else
+				return null;
+		}
 	}
 	
 	
