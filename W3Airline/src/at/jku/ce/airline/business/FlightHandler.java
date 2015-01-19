@@ -20,19 +20,14 @@ public class FlightHandler {
 	private Set<Airport> airports;
 	private Map<String, Airport> airportMap;
 	
-	private FlightHandler() {
-		super();
-		if(controller == null)
-			controller = FlightController.getInstance();
-		
-		initialize();
+	public enum FlightSorter {
+		NAME, DURATION;
 	}
 	
-	public static FlightHandler getInstance() {
-		if(instance == null)
-			instance = new FlightHandler();
-		
-		return instance;
+	public FlightHandler() {
+		super();
+		controller = new FlightController();
+		initialize();
 	}
 	
 	private void initialize() {
@@ -44,7 +39,7 @@ public class FlightHandler {
 			airportMap.put(port.getIcao(), port);
 	}
 
-	public List<FlightCombo> getFlights(String departureIcao, String arrivalIcao) {
+	public List<FlightCombo> getAllFlights(String departureIcao, String arrivalIcao) {
 		List<FlightCombo> list = new LinkedList<FlightCombo>();
 		
 		// add all direct flights 

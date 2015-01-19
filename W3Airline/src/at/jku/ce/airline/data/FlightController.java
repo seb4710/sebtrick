@@ -16,22 +16,15 @@ import at.jku.ce.juddi.UddiManager;
 
 public class FlightController {
 	
-	private static FlightController instance;
-	
 	private List<Flight> flights;
 	
 	
-	private FlightController() {
+	public FlightController() {
+		super();
 		flights = new LinkedList<Flight>();
+		initialize();
 	}
 	
-	public static FlightController getInstance() {
-		if(instance == null){
-			instance = new FlightController();
-			instance.initialize();
-		}
-		return instance;
-	}
 	private void initialize() {
 		
 		//TODO eliminate malformatted or invalid URLs
