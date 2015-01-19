@@ -26,8 +26,11 @@
 	<div> <!-- BEGIN airport wrapper -->
 
 
-<% Set<Airport> ports = FlightHandler.getInstance().getAirports(); %>
-	<% System.out.println("Number of ports: " + ports.size()); %>
+<%
+	FlightHandler handler = new FlightHandler();
+	Set<Airport> ports = handler.getAirports();
+	
+%>
 
 		<!-- departing airport -->
 		<div class="field">

@@ -25,13 +25,14 @@
 <%
 		String from = request.getParameter("departairport");
 		String to = request.getParameter("arriveairport");
+		FlightHandler handler = new FlightHandler();
 		List<FlightCombo> flights = new LinkedList<FlightCombo>();
 
 		if(from != null && to != null) {
 			if(request.getParameter("direct") == null)
-				flights = FlightHandler.getInstance().getFlights(from, to);
+				flights = handler.getAllFlights(from, to);
 			else
-				flights = FlightHandler.getInstance().getDirectFlights(from, to);			
+				flights = handler.getDirectFlights(from, to);			
 		}
 			
 
