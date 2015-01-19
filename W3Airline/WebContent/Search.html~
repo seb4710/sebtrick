@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Look for a flight!</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+<!-- TODO logic (depart != arrival != default) > button enable | disable -->
+
+<div id="header"></div>
+
+
+<div id="main-wrapper">
+<form action="Flights.html">
+
+<div> <!-- BEGIN airport wrapper -->
+
+	<!-- departing airport -->
+	<div class="field">
+		<div>Startflughafen</div>
+
+		<select name="departairport">
+			<option value="vienna">Wien</option>
+			<option value="salzburg">Salzburg</option>
+			<option value="linz">Linz-H&ouml;rsching</option>
+			<option value="innsbruck">Innsbruck</option>
+		</select>
+	</div>
+
+	<!-- arriving airport -->
+	<div class="field">
+		<div>Zielflughafen</div>
+
+		<select name="arriveairport">
+			<option value="vienna">Wien</option>
+			<option value="salzburg">Salzburg</option>
+			<option value="linz">Linz-H&ouml;rsching</option>
+			<option value="innsbruck">Innsbruck</option>
+		</select>
+	</div>
+
+</div> <!-- END airport wrapper -->
+
+<div id="submit-wrapper">
+	<div class="field">
+		<input type="checkbox" name="direct" value="true"> Nur Direktfl&uuml;ge
+	</div>
+
+	<div class="field">
+		<input class="button" type="submit" value="Los!">
+	</div>
+</div>
+
+
+</form>
+</div>
+
+</body>
+</html>

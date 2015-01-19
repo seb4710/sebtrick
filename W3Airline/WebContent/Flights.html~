@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Available flights</title>
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+<div id="header"></div>
+
+<div id="main-wrapper"> <!-- BEGIN main wrapper -->
+
+	<div id="flight-list"> <!-- BEGIN flight list -->
+
+		<div id="flight-header">
+			Gefundene Fl&uuml;ge
+		</div>
+		
+		<div class="flight">
+			<div class="price">150€</div>
+			<div class="airline">Austrian Airline</div>
+			<div class="deptime">50€</div>
+			<div class="departure">Moskau</div>
+			<div class="arrtime">Zeit</div>
+			<div class="arrival">Wien</div>
+			<div class="duration">Dauer</div>
+			<div class="stops">Stop</div>
+			<a href="Booking.html?id=1"><div class="chose">Buchen</div></a>
+		</div>
+		<div class="flight">
+			<div class="price">250€</div>
+			<div class="airline">Russion Airline</div>
+			<div class="deptime">20:15</div>
+			<div class="departure">Moskau</div>
+			<div class="arrtime">23:00</div>
+			<div class="arrival">Wien</div>
+			<div class="duration">Dauer</div>
+			<div class="stops">Stop</div>
+			<a href="Booking.html?id=2"><div class="chose">Buchen</div></a>
+		</div>
+		<div class="flight">
+			<div class="price">150€</div>
+			<div class="airline">Austrian Airline</div>
+			<div class="deptime">50€</div>
+			<div class="departure">Moskau</div>
+			<div class="arrtime">Zeit</div>
+			<div class="arrival">Wien</div>
+			<div class="duration">Dauer</div>
+			<div class="stops">Stop</div>
+			<a href="Booking.html?id=3"><div class="chose">Buchen</div></a>
+		</div>
+
+	</div>  <!-- END flight list -->
+
+</div> <!-- END main wrapper -->
+
+</body>
+</html>

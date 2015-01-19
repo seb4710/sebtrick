@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.airline.ce.jku.at/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AirlineServiceImplService" targetNamespace="http://service.airline.ce.jku.at/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+<import namespace="http://service.airline.ce.jku.at/" schemaLocation="http://140.78.73.67:8080/AirlineService/services/airlineservice?xsd=airlineserviceimpl_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getAirline">
+    <wsdl:part element="tns:getAirline" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFlightResponse">
+    <wsdl:part element="tns:getFlightResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bookFlight">
+    <wsdl:part element="tns:bookFlight" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelFlightResponse">
+    <wsdl:part element="tns:cancelFlightResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFlightplanResponse">
+    <wsdl:part element="tns:getFlightplanResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="bookFlightResponse">
+    <wsdl:part element="tns:bookFlightResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFlight">
+    <wsdl:part element="tns:getFlight" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFlightplan">
+    <wsdl:part element="tns:getFlightplan" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAirlineResponse">
+    <wsdl:part element="tns:getAirlineResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelFlight">
+    <wsdl:part element="tns:cancelFlight" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AirlineServiceImpl">
+    <wsdl:operation name="getFlight">
+      <wsdl:input message="tns:getFlight" name="getFlight">
+    </wsdl:input>
+      <wsdl:output message="tns:getFlightResponse" name="getFlightResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFlightplan">
+      <wsdl:input message="tns:getFlightplan" name="getFlightplan">
+    </wsdl:input>
+      <wsdl:output message="tns:getFlightplanResponse" name="getFlightplanResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAirline">
+      <wsdl:input message="tns:getAirline" name="getAirline">
+    </wsdl:input>
+      <wsdl:output message="tns:getAirlineResponse" name="getAirlineResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bookFlight">
+      <wsdl:input message="tns:bookFlight" name="bookFlight">
+    </wsdl:input>
+      <wsdl:output message="tns:bookFlightResponse" name="bookFlightResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelFlight">
+      <wsdl:input message="tns:cancelFlight" name="cancelFlight">
+    </wsdl:input>
+      <wsdl:output message="tns:cancelFlightResponse" name="cancelFlightResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AirlineServiceImplServiceSoapBinding" type="tns:AirlineServiceImpl">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getFlight">
+      <soap:operation soapAction="urn:GetFlight" style="document"/>
+      <wsdl:input name="getFlight">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFlightResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFlightplan">
+      <soap:operation soapAction="urn:GetFlightplan" style="document"/>
+      <wsdl:input name="getFlightplan">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFlightplanResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAirline">
+      <soap:operation soapAction="urn:GetAirline" style="document"/>
+      <wsdl:input name="getAirline">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAirlineResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="bookFlight">
+      <soap:operation soapAction="urn:BookFlight" style="document"/>
+      <wsdl:input name="bookFlight">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="bookFlightResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelFlight">
+      <soap:operation soapAction="urn:CancelFlight" style="document"/>
+      <wsdl:input name="cancelFlight">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cancelFlightResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AirlineServiceImplService">
+    <wsdl:port binding="tns:AirlineServiceImplServiceSoapBinding" name="AirlineServiceImplPort">
+      <soap:address location="http://140.78.73.67:8080/AirlineService/services/airlineservice"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
