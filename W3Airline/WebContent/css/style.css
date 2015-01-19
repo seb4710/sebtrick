@@ -83,7 +83,15 @@ div.flight div {
 
 .field {
 	margin-top: 20px;	
-	width: 300px;
+	display: inline-block;
+}
+
+.third {
+	display: inline-block;
+	width: 33%;
+}
+
+.form-field {
 	display: inline-block;
 }
 

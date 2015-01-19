@@ -34,24 +34,28 @@
 
 		<!-- departing airport -->
 		<div class="field">
-			<div>Startflughafen</div>
-
-			<select name="departairport">
-				<% for(Airport port : ports) { %>
-					<option value="<%= port.getIcao() %>"><%= port.getName() %>, <%= port.getCountry() %></option>
-				<% } %>
-			</select>
+			<div class="form-descr">Startflughafen</div>
+			
+			<div class="form-field">
+				<select name="departairport">
+					<% for(Airport port : ports) { %>
+						<option value="<%= port.getIcao() %>"><%= port.getName() %>, <%= port.getCountry() %></option>
+					<% } %>
+				</select>
+			</div>
 		</div>
 
 		<!-- arriving airport -->
 		<div class="field">
-			<div>Zielflughafen</div>
+			<div class="form-descr">Zielflughafen</div>
 
-			<select name="arriveairport">
-				<% for(Airport port : ports) { %>
-					<option value="<%= port.getIcao() %>"><%= port.getName() %>, <%= port.getCountry() %></option>
-				<% } %>
-			</select>
+			<div class="form-field">
+				<select name="arriveairport">
+					<% for(Airport port : ports) { %>
+						<option value="<%= port.getIcao() %>"><%= port.getName() %>, <%= port.getCountry() %></option>
+					<% } %>
+				</select>
+			</div>
 		</div>
 
 	</div> <!-- END airport wrapper -->
