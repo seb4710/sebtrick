@@ -12,7 +12,7 @@
 
 	<div class="confirmation-wrapper"> <!-- BEGIN main wrapper -->
 
-	<!-- test case booking confirmation -->
+	<!-- tes case booking confirmation -->
 		<div>Ihr Flug wurde erfolgreich gebucht! Ihre Buchungsnummer lautet:</div>
 
 	<!-- case cancel confirmation -->
