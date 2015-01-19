@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import at.jku.ce.airline.bl.AirlinePlatformService;
 import at.jku.ce.airline.service.AirlineServiceImpl;
 import at.jku.ce.airline.service.AirlineServiceImplService;
 import at.jku.ce.airline.service.Airport;
@@ -28,7 +27,8 @@ public class FlightController {
 	private void initialize() {
 		
 		//TODO eliminate malformatted or invalid URLs
-		List<String> accessPoints = UddiManager.getInstance().getAllPublishedAccessPoints();
+		UddiManager manager = UddiManager.getInstance();
+		List<String> accessPoints = manager.getAllPublishedAccessPoints();
 		accessPoints.remove("http://example.com/fail");
 		accessPoints.remove("http://140.78.73.67:8080/AirlineService/services/airlineservice?wsdl");
 		accessPoints.remove("http://140.78.73.67:8080/XAirline/services/AirlineServiceImplPort?wsdl");
