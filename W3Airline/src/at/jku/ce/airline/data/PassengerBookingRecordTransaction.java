@@ -9,7 +9,6 @@ import java.sql.*;
 
 public class PassengerBookingRecordTransaction {
 
-//
 		/*
 		 * inserts a booking into PassingerBookingRecord table
 		 */
@@ -27,7 +26,7 @@ public class PassengerBookingRecordTransaction {
 						+ pbr.getFirstName()  + "', '" + pbr.getLastName() + "', '"
 						+ pbr.getIdCardNr() + "', '"+ pbr.getFlightSearchEngine()+"');";
 		
-				//System.out.println(sqlStm);
+				
 				
 				stm = con.createStatement();
 				stm.executeUpdate(sqlStm);
@@ -54,11 +53,11 @@ public class PassengerBookingRecordTransaction {
 	/*
 	 * deletes a booking from PassengerBookingRecord table
 	 */
-	public String deleteFrom(String uuid_booking){
+	public String[] deleteFrom(String uuid_booking){
 		Connection con = null;
 		Statement stm = null;
 		String sqlStm = null;
-		String flightId = getFlightId(uuid_booking);
+		String[] cancelParameter = getCancelParameter(uuid_booking);
 		
 		try{
 			con = this.getDBConnection();			
@@ -82,27 +81,28 @@ public class PassengerBookingRecordTransaction {
 				return null;
 			}
 		}
-		return flightId;
+		return cancelParameter;
 	}
 		
 		
 	/*
-	 * retrieves flightId of flight which is to be deleted. 
-	 * flightId is needed for airline to delete entry in flightbookingrecord table
+	 * retrieves flightId and airline name of flight which is to be deleted. 
+	 * flightId and name are needed for airline to delete entry in flightbookingrecord table
 	 */
-	private String getFlightId(String uuid_booking){
+	private String[] getCancelParameter(String uuid_booking){
 		Connection con = null;
 		Statement stm = null;
 		String sqlStm = null;
-		String flightId = null;
+		String[] cancelParameter = new String[2];
 		
 		try{
 			con = this.getDBConnection();			
-			sqlStm = "select id_flight from flightBookingRecord where uuid_booking = '" + uuid_booking + "';";
+			sqlStm = "select id_flight, airline from flightBookingRecord where uuid_booking = '" + uuid_booking + "';";
 			stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sqlStm);					
 			if(rs.next()){
-				flightId = rs.getString("id_flight");
+				cancelParameter[0] = rs.getString("id_flight");
+				cancelParameter[1] = rs.getString("airline");
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -120,7 +120,7 @@ public class PassengerBookingRecordTransaction {
 				return null;
 			}
 		}
-		return flightId;
+		return cancelParameter;
 		
 	}
 		
