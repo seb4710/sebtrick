@@ -31,9 +31,6 @@ public class PassengerBookingRecordTransaction {
 				
 				stm = con.createStatement();
 				stm.executeUpdate(sqlStm);
-			}catch(SQLException ex){
-				ex.printStackTrace();
-				return false;
 			}catch(Exception ex){
 				ex.printStackTrace();
 				return false;
@@ -69,10 +66,6 @@ public class PassengerBookingRecordTransaction {
 			//System.out.println(sqlStm);	
 			stm = con.createStatement();
 			stm.execute(sqlStm);
-		
-		}catch(SQLException ex){
-			ex.printStackTrace();
-			return null;
 		}catch(Exception ex){
 			ex.printStackTrace();
 			return null;
@@ -111,9 +104,6 @@ public class PassengerBookingRecordTransaction {
 			if(rs.next()){
 				flightId = rs.getString("id_flight");
 			}
-		}catch(SQLException ex){
-			ex.printStackTrace();
-			return null;
 		}catch(Exception ex){
 			ex.printStackTrace();
 			return null;
@@ -180,8 +170,6 @@ public class PassengerBookingRecordTransaction {
 					System.out.println(rs.getString("flightSearchEngine"));
 				}
 				
-			}catch(SQLException ex){
-				ex.printStackTrace();
 			}catch(Exception ex){
 				ex.printStackTrace();
 			}finally{
