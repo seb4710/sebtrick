@@ -1,5 +1,9 @@
 package at.jku.ce.airline.data;
 
+/**
+ * this class provides airline accesspoints published at the uddi-server
+ */
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,6 +27,9 @@ public class AirlineHandler {
 		initialize();
 	}
 	
+	/**
+	 * initializes the AirlineHandler instance and retrieves airline accesspoints
+	 */
 	private void initialize() {
 		
 		UddiManager manager = UddiManager.getInstance();
@@ -52,8 +59,10 @@ public class AirlineHandler {
 		}
 	}
 	
-	/*
+	/**
 	 * returns port of given airline
+	 * @param airline accesspoint the name of the droids we are looking for 
+	 * @return accesspoint of given airline
 	 */
 	public AirlineServiceImpl getAirlineServiceImpl(String airline){
 		Airline a;
@@ -66,8 +75,9 @@ public class AirlineHandler {
 		return null;
 	}
 	
-	/*
+	/**
 	 * getter returns instance of type AirlineHandler
+	 * @return Airlinehandler instance
 	 */
 	public static AirlineHandler getInstance(){
 		if(instance == null){
@@ -75,6 +85,16 @@ public class AirlineHandler {
 		}
 		return instance;	
 	}
+	
+	/**
+	 * getter returns list of ports
+	 * @return list of accesspoints
+	 */
+	public List<AirlineServiceImpl> getPorts(){
+		return ports;
+	}
+	
+	
 	
 	/*
 	 * test method
