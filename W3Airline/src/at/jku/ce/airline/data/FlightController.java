@@ -2,6 +2,7 @@ package at.jku.ce.airline.data;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ public class FlightController {
 	
 	private List<Flight> flights;
 	private Map<String, String> map;
+	private Map<String, AirlineServiceImpl> accesspoints;
 	
 	
 	public FlightController() {
@@ -26,6 +28,7 @@ public class FlightController {
 		
 		flights = new LinkedList<Flight>();
 		map = new HashMap<String, String>();
+		accesspoints = new HashMap<String, AirlineServiceImpl>();
 		
 		initialize();
 	}
@@ -46,6 +49,7 @@ public class FlightController {
 			try {
 				service = new AirlineServiceImplService(new URL(s));
 				AirlineServiceImpl port = service.getAirlineServiceImplPort();
+				accesspoints.put(port.getAirline().getName(), port);
 				
 				List<Flight> list = port.getFlightplan();
 				
@@ -133,6 +137,15 @@ public class FlightController {
 		}
 		
 		return ports;		
+	}
+	
+	/**
+	 * 
+	 * @param airlineName name of airline we are looking for
+	 * @return accesspoint of airline we are looking for
+	 */
+	public AirlineServiceImpl getAccesspoint(String airlineName){
+		return accesspoints.get(airlineName);
 	}
 	
 }

@@ -4,49 +4,23 @@ package at.jku.ce.airline.business;
  * this class offers functionality for booking and deleting bookings
  */
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import at.jku.ce.airline.data.*;
-import at.jku.ce.airline.service.Airline;
-import at.jku.ce.airline.service.AirlineServiceImpl;
-import at.jku.ce.airline.service.Flight;
-
 
 public class BookingHandler {
 
 	private PassengerBookingRecordEntry pbre;
 	private PassengerBookingRecordTransaction pbrt;
-	private static AirlineHandler ah;
 	private static BookingHandler instance;
-	private static List<AirlineFlights> flights;
+	private FlightController fc; 
 	
 	
 	/**
 	 * constructor retrieves airline-names and associated flight-id's 
 	 */
 	public BookingHandler(){
-		ah = AirlineHandler.getInstance();
-		ah = new AirlineHandler();
-		List<AirlineServiceImpl> ports = ah.getPorts();
-		flights = new ArrayList<AirlineFlights>();
-		
-		for(AirlineServiceImpl asi : ports){
-			List<Flight> tempFlight = asi.getFlightplan();
-			String al = asi.getAirline().getName();
-			for(Flight f : tempFlight){
-				flights.add(new AirlineFlights(al, f.getFlightId()));
-			}
-		}
+		fc = new FlightController();
 	}
 	
 	/**
@@ -78,21 +52,12 @@ public class BookingHandler {
 	public String performBooking(String flightId, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
 		
 		String uuidBooking = getUuidBooking(flightId,firstName,lastName,idCardNr);
-		
 		pbrt = new PassengerBookingRecordTransaction();
 		pbre = new PassengerBookingRecordEntry(uuidBooking, firstName, lastName, idCardNr);
-		String airlineName = "";
-		
-		for(AirlineFlights af : flights){
-			if(af.getFlightId().equals(flightId)){
-				airlineName = af.getAirlineName();
-			}
-		}
 		
 		try{
-			AirlineServiceImpl service = ah.getAirlineServiceImpl(airlineName);
 			if(pbrt.insertInto(pbre)){
-				service.bookFlight(uuidBooking, flightId, flightDate);
+				fc.getAccesspoint(fc.getAirlineName(flightId)).bookFlight(uuidBooking, flightId, flightDate);
 			}	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -113,31 +78,14 @@ public class BookingHandler {
 	 */
 	public String performBooking(String flightId1, String flightId2, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
 		
-		String uuidBooking = getUuidBooking(flightId1+flightId2,firstName,lastName,idCardNr);
-	
+		String uuidBooking = getUuidBooking(flightId1+flightId2,firstName,lastName,idCardNr);	
 		pbrt = new PassengerBookingRecordTransaction();
 		pbre = new PassengerBookingRecordEntry(uuidBooking, firstName, lastName, idCardNr);
 		
-		String airlineName1 = "";
-		String airlineName2 = "";
-		
-		for(AirlineFlights af : flights){
-			if(af.getFlightId().equals(flightId1)){
-				airlineName1 = af.getAirlineName();
-			}
-			
-			if(af.getFlightId().equals(flightId2)){
-				airlineName2 = af.getAirlineName();
-			}
-		}
-		
-		try{
-			AirlineServiceImpl service = ah.getAirlineServiceImpl(airlineName1);
-			
+		try{			
 			if(pbrt.insertInto(pbre)){
-				service.bookFlight(uuidBooking, flightId1, flightDate);
-				service = ah.getAirlineServiceImpl(airlineName2);
-				service.bookFlight(uuidBooking, flightId2, flightDate);
+				fc.getAccesspoint(fc.getAirlineName(flightId1)).bookFlight(uuidBooking, flightId1, flightDate);
+				fc.getAccesspoint(fc.getAirlineName(flightId2)).bookFlight(uuidBooking, flightId2, flightDate);
 			}	
 		}catch(Exception e){
 			e.printStackTrace();
@@ -158,11 +106,9 @@ public class BookingHandler {
 		List<AirlineFlights> cancelParameter = pbrt.deleteFrom(uuid_booking);
 		
 		for(AirlineFlights af : cancelParameter){
-			
-			//calls cancelFlight procedure of airline
-			if(!ah.getAirlineServiceImpl(af.getAirlineName()).cancelFlight(uuid_booking, af.getFlightId())){
+			if(!fc.getAccesspoint(af.getAirlineName()).cancelFlight(uuid_booking, af.getFlightId())){
 				return false;
-			}	
+			}
 		}
 		return true;
 	}
@@ -176,37 +122,5 @@ public class BookingHandler {
 			instance = new BookingHandler();
 		}
 		return instance;
-	}
-
-	
-	
-	
-	/*
-	 * test methods
-	 */
-	public static void main(String[] args){
-		BookingHandler bh = BookingHandler.getInstance();
-		/*Airline a = new Airline();
-		a.setName("W3Airline");
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.set(2015, 01, 01);
-		
-		XMLGregorianCalendar calendar;
-		try {
-			calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-			String uuid = bh.performBooking(a, "1-W3F1-ELLX-LROP", "patrick", "kien", "123", calendar);
-			System.out.println("booking performed");
-			bh.performCancelFlight(uuid);
-			System.out.println("cancel performed");
-		} catch (DatatypeConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		for(AirlineFlights af : flights){
-			System.out.println(af.getAirlineName() +" " + af.getFlightId() );
-		}
-		
-		
 	}
 }
