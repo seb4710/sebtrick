@@ -1,6 +1,5 @@
 <%@page import="at.jku.ce.airline.business.Formatter"%>
 <%@page import="at.jku.ce.airline.business.FlightHandler"%>
-<%@page import="at.jku.ce.airline.bl.AirlinePlatformService"%>
 <%@page import="at.jku.ce.airline.data.FlightController"%>
 <%@page import="at.jku.ce.airline.service.AirlineServiceImpl"%>
 <%@page import="at.jku.ce.airline.service.AirlineServiceImplService"%>
@@ -20,8 +19,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<% Set<Airport> ports = FlightHandler.getInstance().getAirports(); %>
-<% List<Flight> flights = FlightController.getInstance().getFlights(); %>
+<% FlightHandler handler = new FlightHandler();
+FlightController controller = new FlightController();
+Set<Airport> ports = handler.getAirports();
+List<Flight> flights = controller.getFlights(); %>
 	<% System.out.println("Number of ports: " + ports.size()); %>
 	
 	<dl>
