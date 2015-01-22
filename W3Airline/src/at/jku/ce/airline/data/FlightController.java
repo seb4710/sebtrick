@@ -37,10 +37,15 @@ public class FlightController {
 		
 		//TODO eliminate malformatted or invalid URLs
 		UddiManager manager = UddiManager.getInstance();
-		List<String> accessPoints = manager.getAllPublishedAccessPoints();
-		accessPoints.remove("http://example.com/fail");
-		accessPoints.remove("http://140.78.73.67:8080/AirlineService/services/airlineservice?wsdl");
-		accessPoints.remove("http://140.78.73.67:8080/XAirline/services/AirlineServiceImplPort?wsdl");
+		
+		List<String> accessPoints = new LinkedList<String>();
+		accessPoints.add("http://140.78.196.15:8080/N2Airline/services/AirlineServiceImplPort?wsdl");
+		accessPoints.add("http://140.78.196.16:8080/N3Airline/services/AirlineServiceImplPort?wsdl");
+		
+//		List<String> accessPoints = manager.getAllPublishedAccessPoints();
+//		accessPoints.remove("http://example.com/fail");
+//		accessPoints.remove("http://140.78.73.67:8080/AirlineService/services/airlineservice?wsdl");
+//		accessPoints.remove("http://140.78.73.67:8080/XAirline/services/AirlineServiceImplPort?wsdl");
 		
 		
 		// add flights to local field

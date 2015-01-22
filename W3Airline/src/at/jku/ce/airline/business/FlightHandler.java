@@ -2,6 +2,7 @@ package at.jku.ce.airline.business;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,14 +68,18 @@ public class FlightHandler {
 	 * @param sort: optional parameter for sorting the returned list of FlightCombo
 	 * @return all corresponding flights
 	 */
-	public List<FlightCombo> getAllFlights(String departureIcao, String arrivalIcao, String sort) {
+	public List<FlightCombo> getAllFlights(String departureIcao, String arrivalIcao, String date, String time, String sort, String maxDuration, String maxPrice) {
 		List<FlightCombo> list = new LinkedList<FlightCombo>();
 		
 		// add all direct flights 
-		list.addAll(getDirectFlights(departureIcao, arrivalIcao, null));
+		list.addAll(getDirectFlights(departureIcao, arrivalIcao, date, time, null, null, null));
 		
 		// add all flights with one stop
-		list.addAll(getOneStopFlights(departureIcao, arrivalIcao));
+		list.addAll(getOneStopFlights(departureIcao, arrivalIcao, date, time));
+		
+		// filter list according to parameters
+		if((maxDuration != null && !maxDuration.equals("")) || (maxPrice != null && !maxPrice.equals("")))
+			list = filterList(list, maxDuration, maxPrice);
 		
 		// is null if parameter 'sort' is invalid
 		Comparator<FlightCombo> comparator = getComparator(sort);
@@ -93,12 +98,20 @@ public class FlightHandler {
 	 * @param sort: optional parameter for sorting the returned list of FlightCombo
 	 * @return all corresponding flights
 	 */
-	public List<FlightCombo> getDirectFlights(String departureIcao, String arrivalIcao, String sort) {
+	public List<FlightCombo> getDirectFlights(String departureIcao, String arrivalIcao, String date, String time, String sort, String maxDuration, String maxPrice) {
 		List<FlightCombo> flights = new LinkedList<FlightCombo>();
 		List<Flight> direct = controller.getFlights(getAirport(departureIcao), getAirport(arrivalIcao));
 		
-		for(Flight f : direct)
-			flights.add(new FlightCombo(f));
+		GregorianCalendar cal = Formatter.stringToCalendar(date);
+		int dayConstraint = cal.get(GregorianCalendar.DAY_OF_WEEK);
+		
+		int timeConstraint = Formatter.stringToTime(time);
+		
+		for(Flight f : direct) {
+			if(f.getDepartureTime().getIndexDayOfWeek() == dayConstraint &&
+					timeConstraint < f.getDepartureTime().getTimeOfDay())
+				flights.add(new FlightCombo(f));
+		}
 		
 		// is null if parameter 'sort' is invalid
 		Comparator<FlightCombo> comparator = getComparator(sort);
@@ -116,7 +129,7 @@ public class FlightHandler {
 	 * @param arrivalIcao: ICAO of the arriving airport
 	 * @return all corresponding flights
 	 */
-	private List<FlightCombo> getOneStopFlights(String departureIcao, String arrivalIcao) {
+	private List<FlightCombo> getOneStopFlights(String departureIcao, String arrivalIcao, String date, String time) {
 			List<FlightCombo> flights = new LinkedList<FlightCombo>();
 			List<Flight> listOfDep = controller.getFlightsWithDeparture(getAirport(departureIcao));
 			List<Flight> listOfArr = controller.getFlightsWithArrival(getAirport(arrivalIcao));
@@ -135,6 +148,51 @@ public class FlightHandler {
 			
 			return flights;
 	}
+	
+	private List<FlightCombo> filterList(List<FlightCombo> list, String maxDuration, String maxPrice) {
+		List<FlightCombo> result = new LinkedList<FlightCombo>();
+		List<FlightCombo> temp = new LinkedList<FlightCombo>();
+		
+		boolean didDuration = false;
+		boolean didPrice = false;
+		
+		if(maxDuration != null && !maxDuration.equals("")) {
+			int duration = Integer.parseInt(maxDuration) * 100;
+		
+			for(FlightCombo f : list) {
+				if(f.getDuration_Total() <= duration) {
+					temp.add(f);
+				}
+			}
+			
+			didDuration = true;
+		}
+		
+		if(maxPrice != null && !maxPrice.equals("")) {
+			float price = Float.parseFloat(maxPrice);
+			
+			if(didDuration) {
+				for(FlightCombo f : temp) {
+					if(f.getFee_Total() <= price)
+						result.add(f);
+				}
+			} else {
+				for(FlightCombo f : list) {
+					if(f.getFee_Total() <= price)
+						result.add(f);
+				}
+			}
+			
+			didPrice = true;
+		}	
+		
+		if(didPrice)
+			return result;
+		else if(didDuration)
+			return temp;
+		else
+			return list;
+	}
 
 	public Airport getAirport(String icao) {
 		return airportMap.get(icao);
@@ -145,7 +203,7 @@ public class FlightHandler {
 	}
 	
 	private Comparator<FlightCombo> getComparator(String sort) {
-		if(sort == null) {
+		if(sort == null || sort.equals("") || sort.equals("null")) {
 			return null;
 		} else {
 			if(sort.equals("duration"))

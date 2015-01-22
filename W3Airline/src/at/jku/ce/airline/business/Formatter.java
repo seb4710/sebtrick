@@ -1,10 +1,31 @@
 package at.jku.ce.airline.business;
 
 import java.text.DecimalFormat;
+import java.util.GregorianCalendar;
 
 public class Formatter {
 
 	public static String CURRENCY = "&euro;";
+	public static String DATE_SEPARATOR = "-";
+	public static String TIME_SEPARATOR = ":";
+	
+	public static int stringToTime(String s) {
+		if(s == null || s.equals("") || s.equals("null"))
+			return 0;
+		
+		String[] time = s.split(TIME_SEPARATOR);
+		
+		return Integer.parseInt(time[0]) * 100 + Integer.parseInt(time[1]);
+	}
+	
+	public static GregorianCalendar stringToCalendar(String s) {
+		if(s == null || s.equals("") || s.equals("null"))
+			return new GregorianCalendar();
+		
+		String[] date = s.split(DATE_SEPARATOR);
+		
+		return new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+	}
 	
 	public static String formatMoney(float money) {
 		DecimalFormat formatter = new DecimalFormat("#,###.00");

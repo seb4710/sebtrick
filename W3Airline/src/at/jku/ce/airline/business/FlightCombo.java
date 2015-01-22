@@ -9,6 +9,7 @@ public class FlightCombo {
     private Flight flight1;
     private Flight flight2;
     
+    private int dayOfWeek;    
     private int duration1;
     private int duration2;
     private float fee1;
@@ -21,6 +22,8 @@ public class FlightCombo {
     public FlightCombo(Flight flight) {
     	this.flight1 = flight;
     	this.flight2 = null;
+    	
+    	dayOfWeek = flight.getDepartureTime().getIndexDayOfWeek();
     	
     	duration1 = calcDuration(flight1);
     	duration2 = 0;
@@ -36,6 +39,8 @@ public class FlightCombo {
     public FlightCombo(Flight flight1, Flight flight2) {
     	this.flight1 = flight1;
     	this.flight2 = flight2;
+    	
+    	dayOfWeek = flight1.getDepartureTime().getIndexDayOfWeek();
     	
     	duration1 = calcDuration(flight1);
     	duration2 = calcDuration(flight2);
