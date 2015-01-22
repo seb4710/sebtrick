@@ -81,9 +81,17 @@ div.flight div {
 	display: inline-block;
 }
 
+.line {
+	border-top: 1px solid #B2B2B2;
+}
+
+.line div {
+	text-align: left;
+}
+
 .field {
-	margin-top: 20px;	
-	display: inline-block;
+	margin-top: 20px;
+	width: 100%;
 }
 
 .third {
@@ -92,6 +100,7 @@ div.flight div {
 }
 
 .form-field {
+	width: 50%;
 	display: inline-block;
 }
 
@@ -119,7 +128,7 @@ div.row {
 }
 
 div.form-descr {
-	width: 200px;
+	width: 400px;
 	display: inline-block;
 	text-align: right;
 	padding-right: 20px;
