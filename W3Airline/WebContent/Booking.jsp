@@ -12,18 +12,6 @@
 
 	<div class="booking-wrapper"> <!-- BEGIN main wrapper -->
 
-		<div class="flight">
-			<div class="price">Preis</div>
-			<div class="airline">Fluglinie</div>
-			<div class="deptime">Zeit</div>
-			<div class="departure">Start</div>
-			<div class="arrtime">Zeit</div>
-			<div class="arrival">Ziel</div>
-			<div class="duration">Dauer</div>
-			<div class="stops">Stops</div>
-		</div>
-
-
 		<form action="Confirmation.html">
 
 			<div class="row">
@@ -47,10 +35,6 @@
 			</div>
 
 			<div id="submit-wrapper">
-				<div class="field left">
-					<input type="checkbox" name="agb" value="true"> Ich bin mit den AGBs einverstanden
-				</div>
-
 				<div class="field right">
 					<input class="button" type="submit" value="Buchen!">
 				</div>
