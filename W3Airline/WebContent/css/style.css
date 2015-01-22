@@ -134,6 +134,10 @@ div.form-descr {
 	padding-right: 20px;
 }
 
+.row div.form-descr {
+	width: 300px;
+}
+
 div.form-value {
 	width: 580px;
 	display: inline-block;
