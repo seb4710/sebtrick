@@ -34,19 +34,26 @@ Flight first = null;
 Flight second = null;
 FlightCombo combo = null;
 
+String bookingURL = "";
+
 FlightHandler handler = new FlightHandler();
 
-if(flightId1 != null)
+if(flightId1 != null && !flightId1.equals("")) {
+	bookingURL += "first=" + flightId1;
 	first = handler.getFlight(flightId1);
+}
 
 if(flightId2 != null && !flightId2.equals("")) {
+	bookingURL += "&second=" + flightId2;
 	second = handler.getFlight(flightId2);
 	combo = new FlightCombo(first, second);
 } else {
 	combo = new FlightCombo(first);
 }
-	
 
+//TODO date
+bookingURL += "&date=";
+	
 %>
 		<div class="line">
 			<div>
@@ -156,6 +163,12 @@ if(flightId2 != null && !flightId2.equals("")) {
 						feeSecond += fee;
 				%>
 				<div class="form-field"><b><%=Formatter.formatMoney(feeSecond) %></b></div>
+			</div>
+		</div>
+		
+		<div class="line">
+			<div class="field right">
+				<a href="Booking.jsp?<%= bookingURL %>"><div class="chose">zur Buchung</div></a>
 			</div>
 		</div>
 
