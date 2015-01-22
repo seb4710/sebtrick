@@ -45,7 +45,7 @@
 				</datalist>
 			</div>
 		</div>
-
+		
 		<!-- arriving airport -->
 		<div class="field">
 			<div class="form-descr">Zielflughafen</div>
@@ -54,9 +54,25 @@
 				<input list="arriveairport" name="arriveairport">
 				<datalist id="arriveairport">
 					<% for(Airport port : ports) { %>
-						<option value="<%= port.getIcao() %>"><%= port.getName() %>, <%= port.getCountry() %></option>
+						<option value="<%= port.getIcao() %>"><%= port.getCity() %>, <%= port.getCountry() %></option>
 					<% } %>
 				</datalist>
+			</div>
+		</div>
+		
+		<div class="field">
+			<div class="form-descr">Datum</div>
+			
+			<div class="form-field">
+				<input type="date" name="date">
+			</div>
+		</div>
+		
+		<div class="field">
+			<div class="form-descr">Uhrzeit</div>
+			
+			<div class="form-field">
+				<input type="time" name="time">
 			</div>
 		</div>
 
