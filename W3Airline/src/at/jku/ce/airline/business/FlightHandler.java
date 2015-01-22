@@ -41,6 +41,24 @@ public class FlightHandler {
 		for(Airport port : airports)
 			airportMap.put(port.getIcao(), port);
 	}
+	
+	/**
+	 * 
+	 * @param flightId
+	 * @return
+	 */
+	public String getAirlineName(String flightId) {
+		return controller.getAirlineName(flightId);
+	}
+	
+	/**
+	 * Returns a specific Flight by its ID
+	 * @param flightId: ID of the wanted flight
+	 * @return the requested flight if found - else null
+	 */
+	public Flight getFlight(String flightId) {
+		return controller.getFlight(flightId);
+	}
 
 	/**
 	 * Get all FlightCombos (direct and one-stop) for the given route - optionally sorted;

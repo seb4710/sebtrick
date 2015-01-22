@@ -41,7 +41,7 @@ public class FlightCombo {
     	duration2 = calcDuration(flight2);
     	
     	fee1 = calcFee(flight1);
-    	fee2 = calcFee(flight2) - 10.0f;	// Service fee is just for the first Flight
+    	fee2 = calcFee(flight2);	// Service fee is just for the first Flight
 	}
     
     /* Helper Methods */
@@ -76,12 +76,10 @@ public class FlightCombo {
      * @return fee for flight
      */
 	private float calcFee(Flight flight) {
-		float sum = 10.0f;	// Service fee
+		float sum = 0.0f;	// Service fee
 		
 		try {
-			// random cost multiplicator for flight duration
 			sum += flight.getStdFee().floatValue();
-			
 			sum += flight.getDepartesFrom().getAirportTax().floatValue();
 			sum += flight.getArrivesAt().getAirportTax().floatValue();
 		} catch(NullPointerException e) {

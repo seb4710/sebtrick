@@ -54,29 +54,39 @@
 			<div class="arrival">Nach</div>
 			<div class="duration">Dauer</div>
 			<div class="stops">Stops</div>
-			<div class="chose">Buchen</div>
+			<div class="stops">Details</div>
 		</div>
 		
-			<% for(FlightCombo combo : flights) { %>
+			<%
+			for(FlightCombo combo : flights) {
+				float fee = combo.getFee_Total();
+				
+				// Airline is to pay only one time per Airline
+				if(combo.getStops() == 1 && !handler.getAirlineName(combo.getFirstId()).equals(handler.getAirlineName(combo.getSecondId())))
+					fee += 20.0f;
+				else
+					fee += 10.0f;
+				
+			%>
 			
 		<div class="flight">
-			<div class="price"><%=Formatter.formatMoney(combo.getFee_Total()) %></div>
+			<div class="price"><%=Formatter.formatMoney(fee) %></div>
 			<div class="deptime"><%=Formatter.formatTime(combo.getDepartureTime().getTimeOfDay()) %></div>
 			<div class="departure"><%=combo.getDepartesFrom().getName()%></div>
 			<div class="arrtime"><%=Formatter.formatTime(combo.getArrivalTime().getTimeOfDay()) %></div>
 			<div class="arrival"><%=combo.getArrivesAt().getName() %></div>
 			<div class="duration"><%=Formatter.formatDuration(combo.getDuration_Total()) %></div>
 			<div class="stops"><%= combo.getStops() %></div>
-			<a href="Booking.jsp?first=<%= combo.getFirstId() %>&second=<%= combo.getSecondId() %>"><div class="chose">Buchen</div></a>
+			<a href="Details.jsp?first=<%= combo.getFirstId() %>&second=<%= combo.getSecondId() %>"><div class="chose">Details</div></a>
 		</div>
-<%
-	}
-} else {
-%>
+		<%
+			}
+		} else {
+		%>
 		<div>Es konnten leider keine passenden Fl&uuml;ge gefunden werden!</div>
-<%
-}
-%>
+		<%
+		}
+		%>
 
 	</div>  <!-- END flight list -->
 

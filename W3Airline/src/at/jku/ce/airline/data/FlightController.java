@@ -2,9 +2,11 @@ package at.jku.ce.airline.data;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import at.jku.ce.airline.service.AirlineServiceImpl;
@@ -16,11 +18,15 @@ import at.jku.ce.juddi.UddiManager;
 public class FlightController {
 	
 	private List<Flight> flights;
+	private Map<String, String> map;
 	
 	
 	public FlightController() {
 		super();
+		
 		flights = new LinkedList<Flight>();
+		map = new HashMap<String, String>();
+		
 		initialize();
 	}
 	
@@ -43,8 +49,10 @@ public class FlightController {
 				
 				List<Flight> list = port.getFlightplan();
 				
-				for(Flight f : list)
+				for(Flight f : list) {
 					flights.add(f);
+					map.put(f.getFlightId(), port.getAirline().getName());
+				}
 			} catch (MalformedURLException e) {
 				System.out.println("failed to parse URL: '" + s + "'");
 				e.printStackTrace();
@@ -53,6 +61,21 @@ public class FlightController {
 			}
 		}
 		
+	}
+	
+	public String getAirlineName(String flightId) {
+		return map.get(flightId);
+	}
+	
+	public Flight getFlight(String flightId) {
+		Flight flight = null;
+		
+		for(Flight f : flights) {
+			if(f.getFlightId().equals(flightId))
+				flight = f;
+		}
+			
+		return flight;
 	}
 	
 	public List<Flight> getFlights() {

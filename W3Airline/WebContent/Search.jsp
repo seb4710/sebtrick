@@ -37,11 +37,12 @@
 			<div class="form-descr">Startflughafen</div>
 			
 			<div class="form-field">
-				<select name="departairport">
+				<input list="departairport" name="departairport">
+				<datalist id="departairport">
 					<% for(Airport port : ports) { %>
-						<option value="<%= port.getIcao() %>"><%= port.getName() %>, <%= port.getCountry() %></option>
+						<option value="<%= port.getIcao() %>"><%= port.getCity() %>, <%= port.getCountry() %></option>
 					<% } %>
-				</select>
+				</datalist>
 			</div>
 		</div>
 
@@ -50,11 +51,12 @@
 			<div class="form-descr">Zielflughafen</div>
 
 			<div class="form-field">
-				<select name="arriveairport">
+				<input list="arriveairport" name="arriveairport">
+				<datalist id="arriveairport">
 					<% for(Airport port : ports) { %>
 						<option value="<%= port.getIcao() %>"><%= port.getName() %>, <%= port.getCountry() %></option>
 					<% } %>
-				</select>
+				</datalist>
 			</div>
 		</div>
 
