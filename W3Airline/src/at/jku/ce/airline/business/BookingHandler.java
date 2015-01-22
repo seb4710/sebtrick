@@ -49,8 +49,13 @@ public class BookingHandler {
 		}
 	}
 	
-	/*////////ab in das booking jsp damit!!
-	 * creates the uuid of a certain booking
+	/**
+	 * creates the booking id
+	 * @param flightId id of the flight(s)
+	 * @param firstName first name of the passenger
+	 * @param lastName last name of the passenger
+	 * @param idCardNr id of the passenger
+	 * @return String id of the booking
 	 */
 	private String getUuidBooking(String flightId, String firstName, String lastName, String idCardNr){
 		Date date = new Date();
@@ -70,10 +75,9 @@ public class BookingHandler {
 	 * @param flightDate date of the flight
 	 * @return uuidBooking id of the booking // ev weg damit
 	 */
-	public String performBooking(String uuidBooking, String flightId, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
+	public String performBooking(String flightId, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
 		
-		/////uuidBooking muss im jsp erzeugt werden, da sonst keine kombination von flügen mit gleicher buchungsuuid möglich ist
-		//String uuidBooking = getUuidBooking(flightId,firstName,lastName,idCardNr);
+		String uuidBooking = getUuidBooking(flightId,firstName,lastName,idCardNr);
 		
 		pbrt = new PassengerBookingRecordTransaction();
 		pbre = new PassengerBookingRecordEntry(uuidBooking, firstName, lastName, idCardNr);
@@ -106,12 +110,10 @@ public class BookingHandler {
 	 * @param lastName last name of the passenger
 	 * @param idCardNr identification of the passenger 
 	 * @param flightDate date of the flight
-	 * @return uuidBooking id of the booking // ev weg damit
 	 */
-	public String performBooking(String uuidBooking, String flightId1, String flightId2, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
+	public String performBooking(String flightId1, String flightId2, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
 		
-		/////uuidBooking muss im jsp erzeugt werden, da sonst keine kombination von flügen mit gleicher buchungsuuid möglich ist
-		//String uuidBooking = getUuidBooking(flightId,firstName,lastName,idCardNr);
+		String uuidBooking = getUuidBooking(flightId1+flightId2,firstName,lastName,idCardNr);
 	
 		pbrt = new PassengerBookingRecordTransaction();
 		pbre = new PassengerBookingRecordEntry(uuidBooking, firstName, lastName, idCardNr);
