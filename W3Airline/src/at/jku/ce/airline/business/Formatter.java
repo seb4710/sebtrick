@@ -27,6 +27,18 @@ public class Formatter {
 		return new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
 	}
 	
+	public static String formatDay(int day) {
+		switch(day) {
+			case 1: return "Sonntag";
+			case 2: return "Montag";
+			case 3: return "Dienstag";
+			case 4: return "Mittwoch";
+			case 5: return "Donnerstag";
+			case 6: return "Freitag";
+			default: return "Samstag";
+		}
+	}
+	
 	public static String formatMoney(float money) {
 		DecimalFormat formatter = new DecimalFormat("#,###.00");
 		return formatter.format(money) + CURRENCY;
