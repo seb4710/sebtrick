@@ -9,17 +9,24 @@ import java.util.List;
 import at.jku.ce.airline.data.*;
 
 public class BookingHandler {
-
+	//
 	private PassengerBookingRecordEntry pbre;
 	private PassengerBookingRecordTransaction pbrt;
+	private FlightController fc;
+	private Booking current;
 	private static BookingHandler instance;
-	private FlightController fc; 
-	
-	
+
+
 	/**
 	 * constructor retrieves airline-names and associated flight-id's 
 	 */
-	public BookingHandler(){
+	private BookingHandler(){
+		 
+		/* use for Singleton
+		 * 
+		 * fc = FlightController.getInstance();
+		 */
+		
 		fc = new FlightController();
 	}
 	
@@ -34,64 +41,69 @@ public class BookingHandler {
 	private String getUuidBooking(String flightId, String firstName, String lastName, String idCardNr){
 		Date date = new Date();
 		date.getTime();
-		
 		int hash = (flightId+firstName+lastName+idCardNr+date).hashCode();
 		return "w3-se-"+hash;
 	}
 	
 	/**
-	 * books a single flight
-	 * @param uuidBooking id of the booking which is to be performed
-	 * @param flightId id of the flight
-	 * @param firstName first name of the passenger
-	 * @param lastName last name of the passenger
-	 * @param idCardNr identification of the passenger 
-	 * @param flightDate date of the flight
-	 * @return uuidBooking id of the booking // ev weg damit
+	 * books a flight based on the attributes of Booking object current
+	 * @return uuidBooking id of the booking
 	 */
-	public String performBooking(String flightId, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
+	public String performBooking(){
 		
-		String uuidBooking = getUuidBooking(flightId,firstName,lastName,idCardNr);
-		pbrt = new PassengerBookingRecordTransaction();
-		pbre = new PassengerBookingRecordEntry(uuidBooking, firstName, lastName, idCardNr);
-		
-		try{
-			if(pbrt.insertInto(pbre)){
-				fc.getAccesspoint(fc.getAirlineName(flightId)).bookFlight(uuidBooking, flightId, flightDate);
-			}	
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
+		/*
+		 * Booking object is valid & not null
+		 */
+		if(current.bookingPossible() && current != null){
+			
+			/*
+			 * booking a single flight
+			 */
+			if(current.getFlight2().equals("")){
+				String uuidBooking = getUuidBooking(current.getFlight1(),current.getFname(),current.getLname(),current.getId());	
+				pbrt = new PassengerBookingRecordTransaction();
+				pbre = new PassengerBookingRecordEntry(uuidBooking, current.getFname(), current.getLname(), current.getId());
+				try{
+					
+					/*
+					 * if passengerbookingrecord entry successful, call book method of involved airline
+					 */
+					if(pbrt.insertInto(pbre)){
+						fc.getAccesspoint(fc.getAirlineName(current.getFlight1())).bookFlight(uuidBooking, current.getFlight1(), current.getDate());	
+						current = null;
+						return uuidBooking;
+					}	
+				}catch(Exception e){
+					e.printStackTrace();
+					return "Buchung fehlgeschlagen";
+				}
+			}else{
+				
+				/*
+				 * booking a combined flight
+				 */
+				String uuidBooking = getUuidBooking(current.getFlight1()+current.getFlight2(),current.getFname(),current.getLname(),current.getId());	
+				pbrt = new PassengerBookingRecordTransaction();
+				pbre = new PassengerBookingRecordEntry(uuidBooking, current.getFname(), current.getLname(), current.getId());
+				
+				try{
+					
+					/*
+					 * if passengerbookingrecord entry successful, call book methods of involved airlines
+					 */
+					if(pbrt.insertInto(pbre)){
+						fc.getAccesspoint(fc.getAirlineName(current.getFlight1())).bookFlight(uuidBooking, current.getFlight1(), current.getDate());
+						fc.getAccesspoint(fc.getAirlineName(current.getFlight2())).bookFlight(uuidBooking, current.getFlight2(), current.getDate());
+						current = null;
+						return uuidBooking;
+					}	
+				}catch(Exception e){
+					e.printStackTrace();
+					return "Buchung fehlgeschlagen";
+				}
+			}
 		}
-		return uuidBooking;
-	}
-	
-	/**
-	 * books a combined flight
-	 * @param uuidBooking id of the booking which is to be performed
-	 * @param flightId1 id of the first flight
-	 * @param flightId2 id of the second flight
-	 * @param firstName first name of the passenger
-	 * @param lastName last name of the passenger
-	 * @param idCardNr identification of the passenger 
-	 * @param flightDate date of the flight
-	 */
-	public String performBooking(String flightId1, String flightId2, String firstName, String lastName, String idCardNr, javax.xml.datatype.XMLGregorianCalendar flightDate){
-		
-		String uuidBooking = getUuidBooking(flightId1+flightId2,firstName,lastName,idCardNr);	
-		pbrt = new PassengerBookingRecordTransaction();
-		pbre = new PassengerBookingRecordEntry(uuidBooking, firstName, lastName, idCardNr);
-		
-		try{			
-			if(pbrt.insertInto(pbre)){
-				fc.getAccesspoint(fc.getAirlineName(flightId1)).bookFlight(uuidBooking, flightId1, flightDate);
-				fc.getAccesspoint(fc.getAirlineName(flightId2)).bookFlight(uuidBooking, flightId2, flightDate);
-			}	
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-		return uuidBooking;
+		return "Buchung fehlgeschlagen";	
 	}
 			
 	/**
@@ -100,17 +112,30 @@ public class BookingHandler {
 	 * @return true if cancel successful, else false
 	 */
 	public boolean performCancelFlight(String uuid_booking){
+		
 		pbrt = new PassengerBookingRecordTransaction();
 		
-		//deletes entry in passengerbookingrecord table
+		/*
+		 * deletes the entry in passengerbookingrecord table
+		 */
 		List<AirlineFlights> cancelParameter = pbrt.deleteFrom(uuid_booking);
 		
+		/*
+		 * return false if cancel not successful
+		 */
+		if(cancelParameter.size() < 1){
+			return false;
+		}
+		
+		/*
+		 * call cancel method of involved airline(s)
+		 */
 		for(AirlineFlights af : cancelParameter){
 			if(!fc.getAccesspoint(af.getAirlineName()).cancelFlight(uuid_booking, af.getFlightId())){
 				return false;
 			}
 		}
-		return true;
+		return true;	
 	}
 	
 	/**
@@ -122,5 +147,15 @@ public class BookingHandler {
 			instance = new BookingHandler();
 		}
 		return instance;
+	}
+	
+	/**
+	 * @return Booking current instance
+	 */
+	public Booking getCurrent(){
+		if(current == null){
+			current = new Booking();
+		}
+		return current;
 	}
 }
