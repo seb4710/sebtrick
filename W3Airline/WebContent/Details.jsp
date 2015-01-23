@@ -13,15 +13,15 @@
 </head>
 <body>
 
-<div id="header"></div>
+<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
 
-<div id="main-wrapper"> <!-- BEGIN main wrapper -->
+<div class="main-wrapper"> <!-- BEGIN main wrapper -->
 
-	<div id="flight-list"> <!-- BEGIN flight list -->
+	<div class="header">
+		&Uuml;bersicht
+	</div>
 	
-			<div id="flight-header">
-				&Uuml;bersicht
-			</div>
+	<div class="flight-list">
 			
 
 <%
@@ -55,50 +55,50 @@ if(flightId2 != null && !flightId2.equals("")) {
 bookingURL += "&date=";
 	
 %>
-		<div class="line">
-			<div>
-				<div class="form-descr">Von</div>
-				<div class="form-field"><%=first.getDepartesFrom().getName()%></div>
+		<div class="flight left">
+			<div class="line">
+				<div class="half">Von</div>
+				<div class="inline"><%=first.getDepartesFrom().getName()%></div>
 			</div>
-			<div>
-				<div class="form-descr">Abflug</div>
-				<div class="form-field"><%=Formatter.formatTime(first.getDepartureTime().getTimeOfDay()) %></div>
+			<div class="line">
+				<div class="half">Abflug</div>
+				<div class="inline"><%= Formatter.formatDay(first.getDepartureTime().getIndexDayOfWeek()) %>, <%= Formatter.formatTime(first.getDepartureTime().getTimeOfDay()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Nach</div>
-				<div class="form-field"><%=first.getArrivesAt().getName() %></div>
+			<div class="line">
+				<div class="half">Nach</div>
+				<div class="inline"><%=first.getArrivesAt().getName() %></div>
 			</div>
-			<div>
-				<div class="form-descr">Ankunft</div>
-				<div class="form-field"><%=Formatter.formatTime(first.getArrivalTime().getTimeOfDay()) %></div>
+			<div class="line">
+				<div class="half">Ankunft</div>
+				<div class="inline"><%= Formatter.formatDay(first.getDepartureTime().getIndexDayOfWeek()) %>, <%=Formatter.formatTime(first.getArrivalTime().getTimeOfDay()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Dauer</div>
-				<div class="form-field"><%=Formatter.formatDuration(combo.getDuration_First()) %></div>
+			<div class="line last">
+				<div class="half">Dauer</div>
+				<div class="inline"><%=Formatter.formatDuration(combo.getDuration_First()) %></div>
 			</div>
 		</div>
 		
-		<div class="line">
-			<div>
-				<div class="form-descr">Taxen '<%= handler.getAirlineName(flightId1) %>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(fee) %></div>
+		<div class="flight left">
+			<div class="line">
+				<div class="half">Taxen '<%= handler.getAirlineName(flightId1) %>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(fee) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Taxen ' <%= first.getDepartesFrom().getName()%>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(first.getDepartesFrom().getAirportTax().floatValue()) %></div>
+			<div class="line">
+				<div class="half">Taxen ' <%= first.getDepartesFrom().getName()%>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(first.getDepartesFrom().getAirportTax().floatValue()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Taxen ' <%= first.getArrivesAt().getName()%>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(first.getArrivesAt().getAirportTax().floatValue()) %></div>
+			<div class="line">
+				<div class="half">Taxen ' <%= first.getArrivesAt().getName()%>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(first.getArrivesAt().getAirportTax().floatValue()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Fluggeb&uuml;hren ' <%= first.getFlightId()%>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(first.getStdFee().floatValue()) %></div>
+			<div class="line">
+				<div class="half">Fluggeb&uuml;hren ' <%= first.getFlightId()%>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(first.getStdFee().floatValue()) %></div>
 			</div>
-			<div>
-				<div class="form-descr"><b>Summe : </b></div>
+			<div class="line last">
+				<div class="half"><b>Summe : </b></div>
 				<% float feeFirst = fee + first.getDepartesFrom().getAirportTax().floatValue() + first.getArrivesAt().getAirportTax().floatValue() + first.getStdFee().floatValue(); %>
-				<div class="form-field"><b><%=Formatter.formatMoney(feeFirst) %></b></div>
+				<div class="inline"><b><%=Formatter.formatMoney(feeFirst) %></b></div>
 			</div>
 		</div>
 		
@@ -106,30 +106,30 @@ bookingURL += "&date=";
 	if(second != null) {
 %>
 
-		<div class="line">
-			<div>
-				<div class="form-descr">Von</div>
-				<div class="form-field"><%=second.getDepartesFrom().getName()%></div>
+		<div class="flight left">
+			<div class="line">
+				<div class="half">Von</div>
+				<div class="inline"><%=second.getDepartesFrom().getName()%></div>
 			</div>
-			<div>
-				<div class="form-descr">Abflug</div>
-				<div class="form-field"><%=Formatter.formatTime(second.getDepartureTime().getTimeOfDay()) %></div>
+			<div class="line">
+				<div class="half">Abflug</div>
+				<div class="inline"><%= Formatter.formatDay(second.getDepartureTime().getIndexDayOfWeek()) %>, <%=Formatter.formatTime(second.getDepartureTime().getTimeOfDay()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Nach</div>
-				<div class="form-field"><%=second.getArrivesAt().getName() %></div>
+			<div class="line">
+				<div class="half">Nach</div>
+				<div class="inline"><%=second.getArrivesAt().getName() %></div>
 			</div>
-			<div>
-				<div class="form-descr">Ankunft</div>
-				<div class="form-field"><%=Formatter.formatTime(second.getArrivalTime().getTimeOfDay()) %></div>
+			<div class="line">
+				<div class="half">Ankunft</div>
+				<div class="inline"><%= Formatter.formatDay(second.getDepartureTime().getIndexDayOfWeek()) %>, <%=Formatter.formatTime(second.getArrivalTime().getTimeOfDay()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Dauer</div>
-				<div class="form-field"><%=Formatter.formatDuration(combo.getDuration_Second()) %></div>
+			<div class="line last">
+				<div class="half">Dauer</div>
+				<div class="inline"><%=Formatter.formatDuration(combo.getDuration_Second()) %></div>
 			</div>
 		</div>
 		
-		<div class="line">
+		<div class="flight left">
 		
 		<%
 			boolean twoAirlines = !handler.getAirlineName(combo.getFirstId()).equals(handler.getAirlineName(combo.getSecondId()));
@@ -137,48 +137,55 @@ bookingURL += "&date=";
 		// Airline is to pay only one time per Airline
 			if(twoAirlines) {
 		%>
-			<div>
-				<div class="form-descr">Taxen '<%= handler.getAirlineName(flightId2) %>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(fee) %></div>
+			<div class="line">
+				<div class="half">Taxen '<%= handler.getAirlineName(flightId2) %>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(fee) %></div>
 			</div>
 		<% } %>
 		
-			<div>
-				<div class="form-descr">Taxen ' <%= second.getDepartesFrom().getName()%>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(second.getDepartesFrom().getAirportTax().floatValue()) %></div>
+			<div class="line">
+				<div class="half">Taxen ' <%= second.getDepartesFrom().getName()%>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(second.getDepartesFrom().getAirportTax().floatValue()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Taxen ' <%= second.getArrivesAt().getName()%>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(second.getArrivesAt().getAirportTax().floatValue()) %></div>
+			<div class="line">
+				<div class="half">Taxen ' <%= second.getArrivesAt().getName()%>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(second.getArrivesAt().getAirportTax().floatValue()) %></div>
 			</div>
-			<div>
-				<div class="form-descr">Fluggeb&uuml;hren ' <%= second.getFlightId()%>' : </div>
-				<div class="form-field"><%=Formatter.formatMoney(second.getStdFee().floatValue()) %></div>
+			<div class="line">
+				<div class="half">Fluggeb&uuml;hren ' <%= second.getFlightId()%>' : </div>
+				<div class="inline"><%=Formatter.formatMoney(second.getStdFee().floatValue()) %></div>
 			</div>
-			<div>
-				<div class="form-descr"><b>Summe : </b></div>
+			<div class="line last">
+				<div class="half"><b>Summe : </b></div>
 				<%
 					float feeSecond = second.getDepartesFrom().getAirportTax().floatValue() + second.getArrivesAt().getAirportTax().floatValue() + second.getStdFee().floatValue();
 					if(twoAirlines)
 						feeSecond += fee;
 				%>
-				<div class="form-field"><b><%=Formatter.formatMoney(feeSecond) %></b></div>
+				<div class="inline"><b><%=Formatter.formatMoney(feeSecond) %></b></div>
 			</div>
 		</div>
 		
-		<div class="line">
-			<div class="field right">
-				<a href="Booking.jsp?<%= bookingURL %>"><div class="chose">zur Buchung</div></a>
-			</div>
-		</div>
+
 
 <% } %>
 
-
-
-<%-- TODO: show respective flight details of the passed flightcombo --%>
-
-<%-- TODO: implement link to booking --%>
+		<div class="flight left">
+			<div class="line last">
+				<div class="half">
+					<b>Gesamtsumme</b>
+				</div>
+				
+				<div class="inline">
+					<b><%= Formatter.formatMoney(combo.getFee_Total()) %> &euro;</b>
+				</div>
+				
+			</div>
+			
+			<div class="container" style="margin-top: 40px; margin-left: 40px;">
+				<a href="Booking.jsp?<%= bookingURL %>"><div class="button">buchen</div></a>
+			</div>
+		</div>
 
 	</div>  <!-- END flight list -->
 	

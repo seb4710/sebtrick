@@ -16,14 +16,12 @@
 </head>
 <body>
 
-<!-- TODO logic (depart != arrival != default) > button enable | disable -->
+<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
 
-<div id="header"></div>
-
-<div id="main-wrapper"> <!-- BEGIN main wrapper -->
+<div class="main-wrapper"> <!-- BEGIN main wrapper -->
 	<form action="Flights.jsp">
 
-	<div> <!-- BEGIN airport wrapper -->
+	<!-- BEGIN airport wrapper -->
 
 
 <%
@@ -31,63 +29,58 @@
 	Set<Airport> ports = handler.getAirports();
 	
 %>
-
-		<!-- departing airport -->
-		<div class="field">
-			<div class="form-descr">Startflughafen</div>
+		<div class="container">
+			<!-- departing airport -->
+			<div class="half">
+				<div>Startflughafen</div>
+				<div>
+					<input list="departairport" name="departairport" required>
+					<datalist id="departairport">
+						<% for(Airport port : ports) { %>
+							<option value="<%= port.getIcao() %>"><%= port.getCity() %>, <%= port.getCountry() %></option>
+						<% } %>
+					</datalist>
+				</div>
+			</div>
 			
-			<div class="form-field">
-				<input list="departairport" name="departairport">
-				<datalist id="departairport">
-					<% for(Airport port : ports) { %>
-						<option value="<%= port.getIcao() %>"><%= port.getCity() %>, <%= port.getCountry() %></option>
-					<% } %>
-				</datalist>
+			<!-- arriving airport -->
+			<div class="half">
+				<div>Zielflughafen</div>
+				<div>
+					<input list="arriveairport" name="arriveairport" required>
+					<datalist id="arriveairport">
+						<% for(Airport port : ports) { %>
+							<option value="<%= port.getIcao() %>"><%= port.getCity() %>, <%= port.getCountry() %></option>
+						<% } %>
+					</datalist>
+				</div>
 			</div>
 		</div>
 		
-		<!-- arriving airport -->
-		<div class="field">
-			<div class="form-descr">Zielflughafen</div>
-
-			<div class="form-field">
-				<input list="arriveairport" name="arriveairport">
-				<datalist id="arriveairport">
-					<% for(Airport port : ports) { %>
-						<option value="<%= port.getIcao() %>"><%= port.getCity() %>, <%= port.getCountry() %></option>
-					<% } %>
-				</datalist>
+		<div class="container">
+			<div class="half">
+				<div>Datum
+					<input type="date" name="date" required>
+				</div>
 			</div>
-		</div>
-		
-		<div class="field">
-			<div class="form-descr">Datum</div>
 			
-			<div class="form-field">
-				<input type="date" name="date">
+			<div class="half">
+				<div>Uhrzeit				
+					<input type="time" name="time" required>
+				</div>
+			</div>
+	
+		</div> <!-- END airport wrapper -->
+	
+		<div class="container">
+			<div class="half">
+				<input type="checkbox" name="direct" value="true"> Nur Direktfl&uuml;ge
+			</div>
+	
+			<div class="half">
+				<input class="button" type="submit" value="Los!">
 			</div>
 		</div>
-		
-		<div class="field">
-			<div class="form-descr">Uhrzeit</div>
-			
-			<div class="form-field">
-				<input type="time" name="time">
-			</div>
-		</div>
-
-	</div> <!-- END airport wrapper -->
-
-	<div id="submit-wrapper">
-		<div class="field">
-			<input type="checkbox" name="direct" value="true"> Nur Direktfl&uuml;ge
-		</div>
-
-		<div class="field">
-			<input class="button" type="submit" value="Los!">
-		</div>
-	</div>
-
 
 	</form>
 

@@ -12,13 +12,11 @@
 </head>
 <body>
 
-<div id="header"></div>
+<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
 
-<div id="main-wrapper"> <!-- BEGIN main wrapper -->
+<div class="main-wrapper"> <!-- BEGIN main wrapper -->
 
-	<div id="flight-list"> <!-- BEGIN flight list -->
-
-		<div id="flight-header">
+		<div class="header">
 			Gefundene Fl&uuml;ge
 		</div>
 		
@@ -46,83 +44,104 @@
 
 		if(flights != null && !flights.isEmpty()) { %>
 		
+		<div class="flight-list">
 		<form action="Flights.jsp?" method="GET">
 		
 		<div class="flight">
-		
-			<div class="field">
-				<div class="form-descr">Datum</div>
+			<div class="container">
+				<div class="half">
+					<div class="inline">Datum</div>
+					
+					<div class="inline">
+						<input type="date" name="date" id="date" value="<%= date %>">
+					</div>
+				</div>
 				
-				<div class="form-field">
-					<input type="date" name="date" id="date" value="<%= date %>">
+				<div class="half">
+					<div class="inline">Uhrzeit</div>
+					
+					<div class="inline">
+						<input type="time" name="time" id="time" value="<%= time %>">
+					</div>
 				</div>
 			</div>
 			
-			<div class="field">
-				<div class="form-descr">Uhrzeit</div>
+			<div class="container">
 				
-				<div class="form-field">
-					<input type="time" name="time" id="time" value="<%= time %>">
+				
+				<div class="half">
+					<div>Zeit-Limit
+						<input class="input-field" type="text" id="rangeDuration" value="<% if(maxDuration == null || maxDuration.equals("")) out.print("0"); else out.print(maxDuration); %> h"/>
+					</div>
+					<div>
+						<input type="range" min="0" max="24" value="<% if(maxDuration == null || maxDuration.equals("")) out.print("0"); else out.print(maxDuration); %>" step="1" onchange="showDuration(this.value)" />
+					</div>				
+				</div>
+				
+				<div class="half">
+					<div>Preis-Limit
+						<input class="input-field" type="text" id="rangePrice" value="<% if(maxPrice == null || maxPrice.equals("")) out.print("0"); else out.print(maxPrice); %> EUR" />
+					</div>
+					<div>
+						<input type="range" min="0" max="5000" value="<% if(maxPrice == null || maxPrice.equals("")) out.print("0"); else out.print(maxPrice); %>" step="5" onchange="showPrice(this.value)" />
+					</div>
+				</div>
+				
+				<script type="text/javascript">
+					function showDuration(newValue) {
+						document.getElementById("rangeDuration").value=newValue + " h";
+						document.getElementById("durationfield").value=newValue;
+					}
+					function showPrice(newValue) {
+						document.getElementById("rangePrice").value=newValue + " EUR";
+						document.getElementById("pricefield").value=newValue;
+					}
+				</script>
+				
+				<div style="display: none;">
+					<input type="text" name="departairport" value="<%= from %>">
+					<input type="text" name="arriveairport" value="<%= to %>">
+					<input type="text" name="sort" value="<%= sort %>">
+					<input type="text" id="durationfield" name="maxduration" value="">
+					<input type="text" id="pricefield" name="maxprice" value="">
 				</div>
 			</div>
-		
-		</div>
-		
-		<div class="flight">
 			
-			<div class="third">
-				<div>Zeit-Limit</div>
-				<input type="range" min="0" max="24" value="0" step="1" onchange="showDuration(this.value)" />
-				<div id="rangeDuration">0</div>
+			<div class="container">
+				
+				<div class="half">
+					<div>Sortieren nach:
+						<select name="sort">
+							<option value=""></option>
+							<option value="fee" <% if(sort != null && sort.equals("fee")) { %> selected="selected" <% } %>>Preis</option>
+							<option value="duration" <% if(sort != null && sort.equals("duration")) { %> selected="selected" <% } %> >Flugzeit</option>
+						</select>
+					</div>
+					
+				</div>
+				
+				<div class="half">
+					<div>
+						<input type="checkbox" name="direct" value="true"> Nur Direktfl&uuml;ge
+					</div>
+				</div>
 			</div>
 			
-			<div class="third">
-				<div>Preis-Limit</div>
-				<input type="range" min="0" max="5000" value="0" step="5" onchange="showPrice(this.value)" />
-				<div id="rangePrice">0</div>
-			</div>
-			
-			<script type="text/javascript">
-				function showDuration(newValue) {
-					document.getElementById("rangeDuration").innerHTML=newValue + "h";
-					document.getElementById("durationfield").value=newValue;
-				}
-				function showPrice(newValue) {
-					document.getElementById("rangePrice").innerHTML=newValue + "&euro;";
-					document.getElementById("pricefield").value=newValue;
-				}
-			</script>
-			
-			<div style="display: none;">
-				<input type="text" name="departairport" value="<%= from %>">
-				<input type="text" name="arriveairport" value="<%= to %>">
-				<input type="text" name="sort" value="<%= sort %>">
-				<input type="text" id="durationfield" name="maxduration" value="">
-				<input type="text" id="pricefield" name="maxprice" value="">
-			</div>
-			
-			<div class="third">
+			<div class="container">
 				<input class="button" type="submit" value="filtern">
 			</div>
-			
 		</div>
 		</form>
 
 		<div class="flight">
-			<div class="third">Sortieren nach:</div>
-			<div class="third"><a href="<%= "Flights.jsp?" + "departairport=" + from + "&arriveairport=" + to + "&sort=fee" %>"><div class="chose">Preis</div></a></div>
-			<div class="third"><a href="<%= "Flights.jsp?" + "departairport=" + from + "&arriveairport=" + to + "&sort=duration" %>"><div class="chose">Flugzeit</div></a></div>
-		</div>
-		
-		<div class="flight">
-			<div class="price">Preis</div>
-			<div class="deptime">Abflug</div>
-			<div class="departure">Von</div>
-			<div class="arrtime">Ankunft</div>
-			<div class="arrival">Nach</div>
-			<div class="duration">Dauer</div>
-			<div class="stops">Stops</div>
-			<div class="stops">Details</div>
+			<div class="small">Preis</div>
+			<div class="small">Abflug</div>
+			<div class="big">Von</div>
+			<div class="small">Ankunft</div>
+			<div class="big">Nach</div>
+			<div class="small">Dauer</div>
+			<div class="small">Stops</div>
+			<div class="small">Details</div>
 		</div>
 		
 			<%
@@ -138,14 +157,14 @@
 			%>
 			
 			<div class="flight">
-				<div class="price"><%=Formatter.formatMoney(fee) %></div>
-				<div class="deptime"><%=Formatter.formatTime(combo.getDepartureTime().getTimeOfDay()) %></div>
-				<div class="departure"><%=combo.getDepartesFrom().getName()%></div>
-				<div class="arrtime"><%=Formatter.formatTime(combo.getArrivalTime().getTimeOfDay()) %></div>
-				<div class="arrival"><%=combo.getArrivesAt().getName() %></div>
-				<div class="duration"><%=Formatter.formatDuration(combo.getDuration_Total()) %></div>
-				<div class="stops"><%= combo.getStops() %></div>
-				<a href="Details.jsp?first=<%= combo.getFirstId() %>&second=<%= combo.getSecondId() %>"><div class="chose">Details</div></a>
+				<div class="small"><%=Formatter.formatMoney(fee) %></div>
+				<div class="small"><%=Formatter.formatTime(combo.getDepartureTime().getTimeOfDay()) %></div>
+				<div class="big"><%=combo.getDepartesFrom().getName()%></div>
+				<div class="small"><%=Formatter.formatTime(combo.getArrivalTime().getTimeOfDay()) %></div>
+				<div class="big"><%=combo.getArrivesAt().getName() %></div>
+				<div class="small"><%=Formatter.formatDuration(combo.getDuration_Total()) %></div>
+				<div class="small"><%= combo.getStops() %></div>
+				<a href="Details.jsp?first=<%= combo.getFirstId() %>&second=<%= combo.getSecondId() %>"><div class="button small">Details</div></a>
 			</div>
 		<%
 				
@@ -153,13 +172,16 @@
 			
 		} else {
 		%>
-		<div>Es konnten leider keine passenden Fl&uuml;ge gefunden werden!</div>
+		<div class="container">
+			Es konnten leider keine passenden Fl&uuml;ge gefunden werden!
+			<p>
+				<a class="link" href="Search.jsp">Zur&uuml;ck zur Suche</a>
+			</p>	
+		</div>
 		<%
 		}
 		%>
-
-	</div>  <!-- END flight list -->
-
+	</div> <!-- END flight list -->
 </div> <!-- END main wrapper -->
 
 </body>
