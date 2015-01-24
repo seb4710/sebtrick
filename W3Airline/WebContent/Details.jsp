@@ -36,7 +36,6 @@ FlightCombo combo = null;
 
 String bookingURL = "";
 
-//FlightHandler handler = new FlightHandler();
 FlightHandler handler = FlightHandler.getInstance();
 
 if(flightId1 != null && !flightId1.equals("")) {
@@ -183,8 +182,14 @@ bookingURL += "&date=";
 				
 			</div>
 			
-			<div class="container" style="margin-top: 40px; margin-left: 40px;">
-				<a href="Booking.jsp?<%= bookingURL %>"><div class="button">buchen</div></a>
+			<div class="line last" style="margin-top: 40px;">
+				<div class="half">
+					<a class="link" href="Search.jsp">Zur&uuml;ck zur Suche</a>
+				</div>
+				
+				<div class="inline">
+					<a href="Booking.jsp?<%= bookingURL %>"><div class="button">buchen</div></a>
+				</div>
 			</div>
 		</div>
 

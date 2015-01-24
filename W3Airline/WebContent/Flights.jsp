@@ -31,7 +31,6 @@
 		String maxDuration = request.getParameter("maxduration");
 		String maxPrice = request.getParameter("maxprice");
 		
-		//FlightHandler handler = new FlightHandler();
 		FlightHandler handler = FlightHandler.getInstance();
 		List<FlightCombo> flights = new LinkedList<FlightCombo>();
 		
@@ -102,9 +101,8 @@
 				<div style="display: none;">
 					<input type="text" name="departairport" value="<%= from %>">
 					<input type="text" name="arriveairport" value="<%= to %>">
-					<input type="text" name="sort" value="<%= sort %>">
-					<input type="text" id="durationfield" name="maxduration" value="">
-					<input type="text" id="pricefield" name="maxprice" value="">
+					<input type="text" id="durationfield" name="maxduration" value="<%= maxDuration %>">
+					<input type="text" id="pricefield" name="maxprice" value="<%= maxPrice %>">
 				</div>
 			</div>
 			
@@ -114,7 +112,7 @@
 					<div>Sortieren nach:
 						<select name="sort">
 							<option value=""></option>
-							<option value="fee" <% if(sort != null && sort.equals("fee")) { %> selected="selected" <% } %>>Preis</option>
+							<option value="fee" <% if(sort != null && sort.equals("fee")) { out.print("selected=\"selected\""); } %>>Preis</option>
 							<option value="duration" <% if(sort != null && sort.equals("duration")) { %> selected="selected" <% } %> >Flugzeit</option>
 						</select>
 					</div>
