@@ -8,16 +8,19 @@
 </head>
 <body>
 <div id="header"></div>
-
+<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
 	<%
-	BookingHandler bh = BookingHandler.getInstance();	
-	Boolean success = bh.performCancelFlight(request.getParameter("bookinguuid"));
+	BookingHandler bh = BookingHandler.getInstance();
+	Boolean success = false;
+	if(request.getParameter("bookinguuid") != null){
+		 success = bh.performCancelFlight(request.getParameter("bookinguuid"));
+	}
 	%>
 
     <div id="main-wrapper"> <!-- BEGIN main wrapper -->
 
-	<div class="confirmation-wrapper"> <!-- BEGIN main wrapper -->
 	
+	<div class="container">
 	<% 
 		if(!success){ 
 	%>
@@ -30,9 +33,6 @@
 	<% out.print(request.getParameter("bookinguuid"));%>
 	<%}%>
 		</div>
-
-
-	<div>Zur&uuml;ck zur <a href="Search.jsp">Startseite</a></div>
 
 	</div> <!-- END confirmation wrapper -->
 

@@ -9,6 +9,7 @@
 </head>
 <body>
 <div id="header"></div>
+<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
 
 	<%
 		BookingHandler bh = BookingHandler.getInstance();
@@ -21,8 +22,8 @@
 	%>
 
 <div id="main-wrapper"> <!-- BEGIN main wrapper -->
+	<div class="container">
 
-	<div class="confirmation-wrapper"> <!-- BEGIN main wrapper -->
 
 		<% 
 			if(!uuid.equals("Buchung fehlgeschlagen")){
@@ -33,19 +34,18 @@
 		<% 	
 			}else{ 
 		%>
-			<div>Ihr Flug wurde konnte leider nicht gebucht werden!</div>
+			<div>Ihr Flug konnte leider nicht gebucht werden!</div>
 		<%
 			}
 		%>
 		
+		
+	
+		 	
+				<a href="Cancel.jsp"><div class="button">Stornieren</div></a>
+			
 
-	<!-- display all times -->
-		<div>Zur&uuml;ck zur <a href="Search.jsp">Startseite</a></div>
-		<br/>
-		<div>Buchung Stornieren <a href="Cancel.jsp">hier klicken!</a></div>
-
-	</div> <!-- END confirmation wrapper -->
-
+	</div>
 
 </div>  <!-- END main wrapper -->
 

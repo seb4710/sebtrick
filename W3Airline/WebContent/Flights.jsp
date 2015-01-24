@@ -31,7 +31,8 @@
 		String maxDuration = request.getParameter("maxduration");
 		String maxPrice = request.getParameter("maxprice");
 		
-		FlightHandler handler = new FlightHandler();
+		//FlightHandler handler = new FlightHandler();
+		FlightHandler handler = FlightHandler.getInstance();
 		List<FlightCombo> flights = new LinkedList<FlightCombo>();
 		
 		if(from != null && to != null) {

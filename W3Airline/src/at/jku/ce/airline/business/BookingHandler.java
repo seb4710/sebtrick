@@ -22,12 +22,12 @@ public class BookingHandler {
 	 */
 	private BookingHandler(){
 		 
-		/* use for Singleton
-		 * 
-		 * fc = FlightController.getInstance();
-		 */
 		
-		fc = new FlightController();
+		 
+		fc = FlightController.getInstance();
+		
+		
+		//fc = new FlightController(); //use as non-singleton
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class BookingHandler {
 			/*
 			 * booking a single flight
 			 */
-			if(current.getFlight2().equals("")){
+			if(current.getFlight2() == null){
 				String uuidBooking = getUuidBooking(current.getFlight1(),current.getFname(),current.getLname(),current.getId());	
 				pbrt = new PassengerBookingRecordTransaction();
 				pbre = new PassengerBookingRecordEntry(uuidBooking, current.getFname(), current.getLname(), current.getId());

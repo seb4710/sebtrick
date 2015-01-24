@@ -17,16 +17,18 @@ public class FlightHandler {
 
 	public static long MAX_WAITING_TIME = 360;	// refers to 6 hours in minutes
 	
-	private FlightController controller;
+	private static FlightController controller;
 	private Set<Airport> airports;
 	private Map<String, Airport> airportMap;
+	private static FlightHandler instance;
 	
 	/**
 	 * Constructor
 	 */
 	public FlightHandler() {
 		super();
-		controller = new FlightController();
+		//controller = new FlightController();
+		controller = FlightController.getInstance();
 		initialize();
 	}
 	
@@ -233,6 +235,13 @@ public class FlightHandler {
 			else
 				return null;
 		}
+	}
+	
+	public static FlightHandler getInstance(){
+		if(instance == null){
+			instance = new FlightHandler();
+		}
+		return instance;
 	}
 	
 	

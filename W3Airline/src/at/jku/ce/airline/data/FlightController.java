@@ -21,7 +21,7 @@ public class FlightController {
 	private List<Flight> flights;
 	private Map<String, String> map;
 	private Map<String, AirlineServiceImpl> accesspoints;
-	
+	public static FlightController instance;
 	
 	public FlightController() {
 		super();
@@ -35,32 +35,29 @@ public class FlightController {
 	
 	private void initialize() {
 		
-		//TODO eliminate malformatted or invalid URLs
-		UddiManager manager = UddiManager.getInstance();
-		
-		List<String> accessPoints = new LinkedList<String>();
-		accessPoints.add("http://140.78.196.15:8080/N2Airline/services/AirlineServiceImplPort?wsdl");
-		accessPoints.add("http://140.78.196.16:8080/N3Airline/services/AirlineServiceImplPort?wsdl");
-		
-//		List<String> accessPoints = manager.getAllPublishedAccessPoints();
-//		accessPoints.remove("http://example.com/fail");
-//		accessPoints.remove("http://140.78.73.67:8080/AirlineService/services/airlineservice?wsdl");
-//		accessPoints.remove("http://140.78.73.67:8080/XAirline/services/AirlineServiceImplPort?wsdl");
-		
-		
+		UddiManager manager = UddiManager.getInstance();		
+		List<String> accessPoints = manager.getAllPublishedAccessPoints();
+
 		// add flights to local field
 		for(String s : accessPoints) {
 			AirlineServiceImplService service;
 			try {
-				service = new AirlineServiceImplService(new URL(s));
-				AirlineServiceImpl port = service.getAirlineServiceImplPort();
-				accesspoints.put(port.getAirline().getName(), port);
 				
-				List<Flight> list = port.getFlightplan();
+				//url validation
+				if(s.contains("AirlineServiceImplPort?wsdl") && s.contains("http://")){
 				
-				for(Flight f : list) {
-					flights.add(f);
-					map.put(f.getFlightId(), port.getAirline().getName());
+					service = new AirlineServiceImplService(new URL(s));
+					AirlineServiceImpl port = service.getAirlineServiceImplPort();
+				
+					accesspoints.put(port.getAirline().getName().replace(" ", ""), port);
+				
+					
+					List<Flight> list = port.getFlightplan();
+				
+					for(Flight f : list) {
+						flights.add(f);
+						map.put(f.getFlightId(), port.getAirline().getName());
+					}
 				}
 			} catch (MalformedURLException e) {
 				System.out.println("failed to parse URL: '" + s + "'");
@@ -151,6 +148,13 @@ public class FlightController {
 	 */
 	public AirlineServiceImpl getAccesspoint(String airlineName){
 		return accesspoints.get(airlineName);
+	}
+	
+	public static FlightController getInstance(){
+		if(instance == null){
+			instance = new FlightController();
+		}
+		return instance;
 	}
 	
 }

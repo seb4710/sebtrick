@@ -36,7 +36,8 @@ FlightCombo combo = null;
 
 String bookingURL = "";
 
-FlightHandler handler = new FlightHandler();
+//FlightHandler handler = new FlightHandler();
+FlightHandler handler = FlightHandler.getInstance();
 
 if(flightId1 != null && !flightId1.equals("")) {
 	bookingURL += "first=" + flightId1;

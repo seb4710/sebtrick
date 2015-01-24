@@ -25,7 +25,8 @@
 
 
 <%
-	FlightHandler handler = new FlightHandler();
+	FlightHandler handler = FlightHandler.getInstance();
+	//FlightHandler handler = new FlightHandler();
 	Set<Airport> ports = handler.getAirports();
 	
 %>
