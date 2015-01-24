@@ -174,7 +174,7 @@ public class FlightHandler {
 		boolean didDuration = false;
 		boolean didPrice = false;
 		
-		if(maxDuration != null && !maxDuration.equals("")) {
+		if(maxDuration != null && !maxDuration.equals("") && !maxDuration.equals("null")) {
 			int duration = Integer.parseInt(maxDuration) * 100;
 		
 			for(FlightCombo f : list) {
@@ -186,7 +186,7 @@ public class FlightHandler {
 			didDuration = true;
 		}
 		
-		if(maxPrice != null && !maxPrice.equals("")) {
+		if(maxPrice != null && !maxPrice.equals("") && !maxPrice.equals("null")) {
 			float price = Float.parseFloat(maxPrice);
 			
 			if(didDuration) {

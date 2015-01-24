@@ -71,19 +71,19 @@
 				
 				<div class="half">
 					<div>Zeit-Limit
-						<input class="input-field" type="text" id="rangeDuration" value="<% if(maxDuration == null || maxDuration.equals("")) out.print("0"); else out.print(maxDuration); %> h"/>
+						<input class="input-field" type="text" id="rangeDuration" value="<% if(maxDuration == null || maxDuration.equals("") || maxDuration.equals("null")) out.print("0"); else out.print(maxDuration); %> h"/>
 					</div>
 					<div>
-						<input type="range" min="0" max="24" value="<% if(maxDuration == null || maxDuration.equals("")) out.print("0"); else out.print(maxDuration); %>" step="1" onchange="showDuration(this.value)" />
+						<input type="range" min="0" max="24" value="<% if(maxDuration == null || maxDuration.equals("") || maxDuration.equals("null")) out.print("0"); else out.print(maxDuration); %>" step="1" onchange="showDuration(this.value)" />
 					</div>				
 				</div>
 				
 				<div class="half">
 					<div>Preis-Limit
-						<input class="input-field" type="text" id="rangePrice" value="<% if(maxPrice == null || maxPrice.equals("")) out.print("0"); else out.print(maxPrice); %> EUR" />
+						<input class="input-field" type="text" id="rangePrice" value="<% if(maxPrice == null || maxPrice.equals("") || maxPrice.equals("null")) out.print("0"); else out.print(maxPrice); %> EUR" />
 					</div>
 					<div>
-						<input type="range" min="0" max="5000" value="<% if(maxPrice == null || maxPrice.equals("")) out.print("0"); else out.print(maxPrice); %>" step="5" onchange="showPrice(this.value)" />
+						<input type="range" min="0" max="5000" value="<% if(maxPrice == null || maxPrice.equals("") || maxPrice.equals("null")) out.print("0"); else out.print(maxPrice); %>" step="5" onchange="showPrice(this.value)" />
 					</div>
 				</div>
 				
@@ -103,6 +103,8 @@
 					<input type="text" name="arriveairport" value="<%= to %>">
 					<input type="text" id="durationfield" name="maxduration" value="<%= maxDuration %>">
 					<input type="text" id="pricefield" name="maxprice" value="<%= maxPrice %>">
+					<input type="text" name="date" value="<%= request.getParameter("date") %>" />
+					<input type="text" name="time" value="<%= request.getParameter("time") %>" />
 				</div>
 			</div>
 			
@@ -121,7 +123,7 @@
 				
 				<div class="half">
 					<div>
-						<input type="checkbox" name="direct" value="true"> Nur Direktfl&uuml;ge
+						<input type="checkbox" name="direct" value="true" <% if(request.getParameter("direct") != null && request.getParameter("direct").equals("true")) out.print("checked"); %> > Nur Direktfl&uuml;ge
 					</div>
 				</div>
 			</div>
@@ -163,7 +165,7 @@
 				<div class="big"><%=combo.getArrivesAt().getName() %></div>
 				<div class="small"><%=Formatter.formatDuration(combo.getDuration_Total()) %></div>
 				<div class="small"><%= combo.getStops() %></div>
-				<a href="Details.jsp?first=<%= combo.getFirstId() %>&second=<%= combo.getSecondId() %>"><div class="button small">Details</div></a>
+				<a href="Details.jsp?first=<%= combo.getFirstId() %>&second=<%= combo.getSecondId() %>&date=<%= date %>"><div class="button small">Details</div></a>
 			</div>
 		<%
 				

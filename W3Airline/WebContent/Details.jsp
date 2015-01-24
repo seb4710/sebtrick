@@ -29,17 +29,19 @@ float fee = 10.0f;
 
 String flightId1 = request.getParameter("first");
 String flightId2 = request.getParameter("second");
+String date = request.getParameter("date");
+
 
 Flight first = null;
 Flight second = null;
 FlightCombo combo = null;
 
-String bookingURL = "";
+String bookingURL = "date=" + date;
 
 FlightHandler handler = FlightHandler.getInstance();
 
 if(flightId1 != null && !flightId1.equals("")) {
-	bookingURL += "first=" + flightId1;
+	bookingURL += "&first=" + flightId1;
 	first = handler.getFlight(flightId1);
 }
 
@@ -50,9 +52,6 @@ if(flightId2 != null && !flightId2.equals("")) {
 } else {
 	combo = new FlightCombo(first);
 }
-
-//TODO date
-bookingURL += "&date=";
 	
 %>
 		<div class="flight left">
