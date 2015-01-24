@@ -21,9 +21,9 @@ public class FlightController {
 	private List<Flight> flights;
 	private Map<String, String> map;
 	private Map<String, AirlineServiceImpl> accesspoints;
-	public static FlightController instance;
+	private static FlightController instance;
 	
-	public FlightController() {
+	private FlightController() {
 		super();
 		
 		flights = new LinkedList<Flight>();
@@ -31,6 +31,13 @@ public class FlightController {
 		accesspoints = new HashMap<String, AirlineServiceImpl>();
 		
 		initialize();
+	}
+	
+	public static FlightController getInstance(){
+		if(instance == null){
+			instance = new FlightController();
+		}
+		return instance;
 	}
 	
 	private void initialize() {
@@ -150,11 +157,6 @@ public class FlightController {
 		return accesspoints.get(airlineName);
 	}
 	
-	public static FlightController getInstance(){
-		if(instance == null){
-			instance = new FlightController();
-		}
-		return instance;
-	}
+
 	
 }

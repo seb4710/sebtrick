@@ -16,21 +16,29 @@ import at.jku.ce.airline.service.Flight;
 public class FlightHandler {
 
 	public static long MAX_WAITING_TIME = 360;	// refers to 6 hours in minutes
+	private static FlightHandler instance;
 	
-	private static FlightController controller;
+	private FlightController controller;
 	private Set<Airport> airports;
 	private Map<String, Airport> airportMap;
-	private static FlightHandler instance;
 	
 	/**
 	 * Constructor
 	 */
-	public FlightHandler() {
+	private FlightHandler() {
 		super();
-		//controller = new FlightController();
 		controller = FlightController.getInstance();
 		initialize();
 	}
+	
+	public static FlightHandler getInstance() {
+		if(instance == null)
+			instance = new FlightHandler();
+		
+		return instance;
+	}
+	
+	
 	
 	/**
 	 * Initialises the new instance:
@@ -136,6 +144,11 @@ public class FlightHandler {
 			List<Flight> listOfDep = controller.getFlightsWithDeparture(getAirport(departureIcao));
 			List<Flight> listOfArr = controller.getFlightsWithArrival(getAirport(arrivalIcao));
 			
+			GregorianCalendar cal = Formatter.stringToCalendar(date);
+			int dayConstraint = cal.get(GregorianCalendar.DAY_OF_WEEK);
+			
+			int timeConstraint = Formatter.stringToTime(time);
+			
 			for(Flight first : listOfDep) {
 				for(Flight second : listOfArr) {
 					long departure = Formatter.timeToMinutes(second.getDepartureTime().getTimeOfDay());
@@ -143,7 +156,10 @@ public class FlightHandler {
 					
 					if(first.getArrivesAt().getIcao().equals(second.getDepartesFrom().getIcao())
 							&& (departure - arrival) > 0
-							&& (departure - arrival) < MAX_WAITING_TIME)
+							&& (departure - arrival) < MAX_WAITING_TIME
+							&& first.getDepartureTime().getIndexDayOfWeek() == dayConstraint
+							&& second.getDepartureTime().getIndexDayOfWeek() == dayConstraint
+							&& timeConstraint < first.getDepartureTime().getTimeOfDay())
 						flights.add(new FlightCombo(first, second));
 				}
 			}
@@ -235,13 +251,6 @@ public class FlightHandler {
 			else
 				return null;
 		}
-	}
-	
-	public static FlightHandler getInstance(){
-		if(instance == null){
-			instance = new FlightHandler();
-		}
-		return instance;
 	}
 	
 	
