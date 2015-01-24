@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
+<div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
 
 <div class="main-wrapper"> <!-- BEGIN main wrapper -->
 
@@ -176,7 +176,7 @@
 		<div class="container">
 			Es konnten leider keine passenden Fl&uuml;ge gefunden werden!
 			<p>
-				<a class="link" href="Search.jsp">Zur&uuml;ck zur Suche</a>
+				<a class="link" href="Index.jsp">Zur&uuml;ck zur Suche</a>
 			</p>	
 		</div>
 		<%

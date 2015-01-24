@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id="header"></div>
-<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
+<div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
 
 	<%
 		BookingHandler bh = BookingHandler.getInstance();

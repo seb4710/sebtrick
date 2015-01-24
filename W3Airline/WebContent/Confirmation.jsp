@@ -25,7 +25,7 @@
 		<div>Schreiben Sie sich diese Nummer auf, um Ihr Ticket abzuholen oder die Buchung zu stornieren! </div>
 
 	<!-- display all times -->
-		<div>Zur&uuml;ck zur <a href="Search.html">Startseite</a></div>
+		<div>Zur&uuml;ck zur <a href="Index.jsp">Startseite</a></div>
 
 	</div> <!-- END confirmation wrapper -->
 

@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<div class="navigation"><a href="Search.jsp">W3 Flugsuchmaschine</a></div>
+<div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
 
 <div class="main-wrapper"> <!-- BEGIN main wrapper -->
 
@@ -183,7 +183,7 @@ if(flightId2 != null && !flightId2.equals("")) {
 			
 			<div class="line last" style="margin-top: 40px;">
 				<div class="half">
-					<a class="link" href="Search.jsp">Zur&uuml;ck zur Suche</a>
+					<a class="link" href="Index.jsp">Zur&uuml;ck zur Suche</a>
 				</div>
 				
 				<div class="inline">
