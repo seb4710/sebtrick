@@ -13,40 +13,42 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div id="header"></div>
-
 <div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
-<div id="main-wrapper"> <!-- BEGIN main wrapper -->
+
+<div class="main-wrapper"> <!-- BEGIN main wrapper -->
 
 
 	
 
 		<form action="BookingConfirmation.jsp">
 		<div class="container">
-			<div class="row">
-				<div class="form-descr">Vorname</div>
-				<div class="form-value"><input type="text" name="firstname"></div>
+			<div class="container">
+				<div>Vorname</div>
+				<div><input type="text" name="firstname" required></div>
 			</div>
 
-			<div class="row">
-				<div class="form-descr">Nachname</div>
-				<div class="form-value"><input type="text" name="lastname"></div>
+			<div class="container">
+				<div>Nachname</div>
+				<div><input type="text" name="lastname" required></div>
 			</div>
 
-			<div class="row">
-				<div class="form-descr">Reisepassnummer</div>
-				<div class="form-value"><input type="text" name="identification"></div>
+			<div class="container">
+				<div>Reisepassnummer</div>
+				<div><input type="text" name="identification" required></div>
 			</div>
-
-			<div id="submit-wrapper">
-				<div class="field right">
+			<div class="container">
+				<div class="container">
 					<input class="button" type="submit" value="Buchen!">
 				</div>
+				
+				<div class="container">
+					<a class="link" href="Index.jsp">Zur&uuml;ck zur Suche</a>
+				</div>
 			</div>
-
+		</div> <!-- END booking wrapper -->
 		</form>
 
-	<div> <!-- END booking wrapper -->
+	
 
 
 </div> <!-- END main wrapper -->

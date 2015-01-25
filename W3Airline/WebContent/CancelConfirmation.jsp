@@ -7,7 +7,6 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div id="header"></div>
 <div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
 	<%
 	BookingHandler bh = BookingHandler.getInstance();
@@ -17,24 +16,42 @@
 	}
 	%>
 
-    <div id="main-wrapper"> <!-- BEGIN main wrapper -->
-
-	
-	<div class="container">
+    <div class="main-wrapper"> <!-- BEGIN main wrapper -->
+		<div class="container">
 	<% 
 		if(!success){ 
 	%>
-		<div>Hoppala, dieser Flug konnte nicht storniert werden.</div>
+			<div>Hoppala, dieser Flug konnte nicht storniert werden.</div>
+			
+			<div class="container">
+				<div class="half">
+					<a class="link" href="Index.jsp">Zur&uuml;ck zur Suche</a>
+				</div>
+				
+				<div class="half">
+					<a href="Cancel.jsp"><div class="button">Stornieren</div></a>
+				</div>
+			</div>
+			
 	<% 
 		}else{
 	%>		
-		<div>Ihr Flug wurde erfolgreich storniert! Ihre Buchungsnummer lautete:</div>
-		<div class="booking-number"> 
-	<% out.print(request.getParameter("bookinguuid"));%>
-	<%}%>
-		</div>
+			<div>Ihr Flug wurde erfolgreich storniert! Ihre Buchungsnummer lautete:</div>
+			<div class="booking-number"> 
+	<%
+		out.print(request.getParameter("bookinguuid"));
+	%>
+			</div>
+			
+			<div class="container">
+				<a class="link" href="Index.jsp">Zur&uuml;ck zur Suche</a>
+			</div>
+	<%
+		}
+	%>
 
-	</div> <!-- END confirmation wrapper -->
+	
+		</div> <!-- END confirmation wrapper -->
 
 
 </div>  <!-- END main wrapper -->

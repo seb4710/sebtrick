@@ -87,6 +87,7 @@ input, select {
 	color: #fcfcfc;
 	cursor: pointer;
 	font-size: 14pt;
+	margin: auto;
 	padding: 5px;
 	width: 100px;
 	text-align: center;
@@ -95,6 +96,12 @@ input, select {
 
 .button.small {
 	font-size: 12pt;
+}
+
+.booking-number {
+	font-size: 20pt;
+	font-weight: 600;
+	line-height: 48pt;
 }
 
 /* fields */

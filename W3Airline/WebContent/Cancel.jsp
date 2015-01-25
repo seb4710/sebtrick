@@ -7,30 +7,33 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div id="header"></div>
-
 <div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
 
-<div id="main-wrapper"> <!-- BEGIN main wrapper -->
+<div class="main-wrapper"> <!-- BEGIN main wrapper -->
 
 	<!-- div class="cancel-wrapper"> <!-- BEGIN cancel wrapper -->
 
 	<form action="CancelConfirmation.jsp">
 	<div class="container">
-			<div class="row">
+			<div class="container">
 				<div class="form-descr">Buchungsnummer</div>
-				<div class="form-value"><input type="text" name="bookinguuid"></div>
+				<div class="form-value"><input type="text" name="bookinguuid" required></div>
 			</div>
 
-			<div id="cancel-wrapper">
-				<div class="field right">
+			<div class="container">
+				<div class="container">
 					<input class="button" type="submit" value="Stornieren!">
 				</div>
+				
+				<div class="container">
+					<a class="link" href="Index.jsp">Zur&uuml;ck zur Suche</a>
+				</div>
 			</div>
-			</form>
+			
 			
 	<div> <!-- END cancel wrapper -->
-
+	</form>
+	
 </div> <!-- END main wrapper -->
 
 

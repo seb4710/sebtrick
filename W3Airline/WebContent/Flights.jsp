@@ -174,10 +174,15 @@
 		} else {
 		%>
 		<div class="container">
-			Es konnten leider keine passenden Fl&uuml;ge gefunden werden!
-			<p>
-				<a class="link" href="Index.jsp">Zur&uuml;ck zur Suche</a>
-			</p>	
+			<div class="container">
+				Es konnten leider keine passenden Fl&uuml;ge gefunden werden!
+			</div>
+			
+			<% String url = "Index.jsp?departairport=" + from + "&arriveairport=" + to + "&date=" + date + "&time=" + time; %>
+			
+			<div class="container">
+				<a class="link" href="<%= url %> ">Zur&uuml;ck zur Suche</a>
+			</div>
 		</div>
 		<%
 		}
