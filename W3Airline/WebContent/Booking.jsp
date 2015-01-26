@@ -13,12 +13,9 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+
 <div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
-
-<div class="main-wrapper"> <!-- BEGIN main wrapper -->
-
-
-	
+<div id="main-wrapper"> <!-- BEGIN main wrapper -->
 
 		<form action="BookingConfirmation.jsp">
 		<div class="container">
@@ -48,26 +45,30 @@
 		</div> <!-- END booking wrapper -->
 		</form>
 
-	
-
-
 </div> <!-- END main wrapper -->
 	
 	<%
-	
-	/////dummy Datum////
-	SimpleDateFormat sdfDate = new SimpleDateFormat("dd.MM.yyyy");
-	Date utilDateDeparture = sdfDate.parse("20.10.2015");
-	java.util.GregorianCalendar flightDateGreg = new java.util.GregorianCalendar();
-	flightDateGreg.setTime(utilDateDeparture);
-	javax.xml.datatype.XMLGregorianCalendar flightDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(flightDateGreg);
-	///////////////////
-	
- 	BookingHandler bh = BookingHandler.getInstance();
-	
-	bh.getCurrent().setFlight1(request.getParameter("first"));
-	bh.getCurrent().setFlight2(request.getParameter("second"));
-	bh.getCurrent().setDate(flightDate);
+		BookingHandler bh = BookingHandler.getInstance();
+		
+		/*
+		 * flightDate handling
+		 */
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-mm-dd");
+		java.util.GregorianCalendar flightDateGreg = new java.util.GregorianCalendar();
+		
+		if(!request.getParameter("date").equals("")){
+			String d = request.getParameter("date");
+			Date utilDateDeparture = sdfDate.parse(d);
+			flightDateGreg.setTime(utilDateDeparture);
+			javax.xml.datatype.XMLGregorianCalendar flightDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(flightDateGreg);
+			flightDate.toString(); 
+			bh.getCurrent().setDate(flightDate);
+		}else{
+			bh.getCurrent().setDate(null);
+		}
+		
+		bh.getCurrent().setFlight1(request.getParameter("first"));
+		bh.getCurrent().setFlight2(request.getParameter("second"));
 	%>
 		
 </body>

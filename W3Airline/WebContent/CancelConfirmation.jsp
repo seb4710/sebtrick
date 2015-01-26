@@ -12,6 +12,7 @@
 	BookingHandler bh = BookingHandler.getInstance();
 	Boolean success = false;
 	if(request.getParameter("bookinguuid") != null){
+		 success= false;
 		 success = bh.performCancelFlight(request.getParameter("bookinguuid"));
 	}
 	%>
@@ -52,8 +53,6 @@
 
 	
 		</div> <!-- END confirmation wrapper -->
-
-
 </div>  <!-- END main wrapper -->
 
 

@@ -9,7 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.jku.ce.airline.business.AirlineFlights;
 
 
 public class PassengerBookingRecordTransaction {
@@ -54,22 +53,21 @@ public class PassengerBookingRecordTransaction {
 		}
 		return true;
 	}
-			
+	
 	/**
 	 * deletes a booking from PassengerBookingRecord table
 	 * @param uuid_booking booking we want to delete
 	 * @return list of AirlineFlights containing all associated flights needed for deleting the booking in flightbookingrecord table
 	 */
-	public List<AirlineFlights> deleteFrom(String uuid_booking){
+	public List<String> deleteFrom(String uuid_booking){
 		Connection con = null;
 		Statement stm = null;
 		String sqlStm = null;
-		List<AirlineFlights> cancelParameter = getCancelParameter(uuid_booking);
+		List<String> cancelParameter = getCancelParameter(uuid_booking);
 		
 		try{
 			con = this.getDBConnection();			
 			sqlStm = "delete from passengerBookingRecord where uuid_booking = '"+ uuid_booking + "'";
-			//System.out.println(sqlStm);	
 			stm = con.createStatement();
 			stm.execute(sqlStm);
 		}catch(Exception ex){
@@ -92,24 +90,24 @@ public class PassengerBookingRecordTransaction {
 	}
 		
 	/**
-	 * retrieves flightId and airline name of flight which is to be deleted. 
-	 * flightId and name are needed for airline to delete entry in flightbookingrecord table
+	 * retrieves flightId of flight which is to be deleted. 
+	 * flightId is needed for airline to delete entry in flightbookingrecord table
 	 * @param uuid_booking booking we want to delete
-	 * @return list of AirlineFlights containing all associated flights needed for deleting the booking in flightbookingrecord table
+	 * @return list of String containing all associated flights needed for deleting the booking in flightbookingrecord table
 	 */
-	private List<AirlineFlights> getCancelParameter(String uuid_booking){
+	private List<String> getCancelParameter(String uuid_booking){
 		Connection con = null;
 		Statement stm = null;
 		String sqlStm = null;
-		List<AirlineFlights> cancelParameter = new ArrayList<AirlineFlights>();
+		List<String> cancelParameter = new ArrayList<String>();
 		
 		try{
 			con = this.getDBConnection();			
-			sqlStm = "select id_flight, airline from flightBookingRecord where uuid_booking = '" + uuid_booking + "';";
+			sqlStm = "select id_flight from flightBookingRecord where uuid_booking = '" + uuid_booking + "';";
 			stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sqlStm);					
 			while(rs.next()){
-				cancelParameter.add(new AirlineFlights(rs.getString("airline"),rs.getString("id_flight")));
+				cancelParameter.add(rs.getString("id_flight"));
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -127,10 +125,8 @@ public class PassengerBookingRecordTransaction {
 				return null;
 			}
 		}
-		return cancelParameter;
-		
+		return cancelParameter;	
 	}
-		
 		
 	/**
 	 * establishes a connection to the airlineDB	
@@ -151,66 +147,7 @@ public class PassengerBookingRecordTransaction {
 			e.printStackTrace();
 		}
 		return DriverManager.getConnection("jdbc:mysql://140.78.73.67:3306/airlineDB", "ceue", "ceair14db");
-	}
-		
-	
-	
-	/*
-	 * methods for testing fancy airlineDB
-	 */
-		public void getSample(){
-			
-			Connection con = null;
-			Statement stmt = null;
-			String sqlStm = null;
-			
-			try{
-			
-				con = this.getDBConnection();			
-				sqlStm = "select * from passengerBookingRecord where uuid_booking = '20120152000ab';";
-				//System.out.println(sqlStm);	
-				stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery(sqlStm);
-				
-			//	rs.next();
-				while(rs.next()){
-					System.out.println(rs.getString("uuid_booking"));
-					System.out.println(rs.getString("firstname"));
-					System.out.println(rs.getString("lastname"));
-					System.out.println(rs.getString("idCardNr"));
-					System.out.println(rs.getString("flightSearchEngine"));
-				}
-				
-			}catch(Exception ex){
-				ex.printStackTrace();
-			}finally{
-				try{
-					if (stmt != null){
-						stmt.close();
-					}
-					if (con != null){
-						con.close();
-					}			
-				}catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		
-		/*
-		 * method for testing fancy airlineDB
-		 */
-		public static void main(String[] args){
-			PassengerBookingRecordTransaction pbrt = new PassengerBookingRecordTransaction();
-			PassengerBookingRecordEntry pbr = new PassengerBookingRecordEntry("20120152000ab", "Frodo", "Beutlin", "12345");
-			
-			//pbrt.insertInto(pbr);
-			//pbrt.getSample();
-			//pbrt.deleteFrom("20120152000ab");
-			//pbrt.getSample();
-		}
-		
+	}	
 }
 
 	

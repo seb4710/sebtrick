@@ -7,15 +7,17 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+
 <div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
 
 <div class="main-wrapper"> <!-- BEGIN main wrapper -->
 
-	<!-- div class="cancel-wrapper"> <!-- BEGIN cancel wrapper -->
 
 	<form action="CancelConfirmation.jsp">
 	<div class="container">
+
 			<div class="container">
+
 				<div class="form-descr">Buchungsnummer</div>
 				<div class="form-value"><input type="text" name="bookinguuid" required></div>
 			</div>

@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+<div id="header"></div>
 <div class="navigation"><a href="Index.jsp">W3 Flugsuchmaschine</a></div>
 
 	<%
@@ -20,8 +21,9 @@
 		String uuid = bh.performBooking();
 	%>
 
-<div class="main-wrapper"> <!-- BEGIN main wrapper -->
-	<div class="container">
+<div id="main-wrapper"> <!-- BEGIN main wrapper -->
+	<div class="container">  
+
 
 
 		<% 
