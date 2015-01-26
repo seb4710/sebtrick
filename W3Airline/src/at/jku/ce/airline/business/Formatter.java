@@ -24,7 +24,7 @@ public class Formatter {
 		
 		String[] date = s.split(DATE_SEPARATOR);
 		
-		return new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
+		return new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]));
 	}
 	
 	public static String formatDay(int day) {

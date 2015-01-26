@@ -113,7 +113,10 @@ public class FlightHandler {
 		List<Flight> direct = controller.getFlights(getAirport(departureIcao), getAirport(arrivalIcao));
 		
 		GregorianCalendar cal = Formatter.stringToCalendar(date);
-		int dayConstraint = cal.get(GregorianCalendar.DAY_OF_WEEK);
+		int dayConstraint = cal.get(GregorianCalendar.DAY_OF_WEEK) - 1; // usually sunday is 1. but not in our convention
+		
+		if(dayConstraint == 0)	// change if it had been sunday
+			dayConstraint = 7;
 		
 		int timeConstraint = Formatter.stringToTime(time);
 		
@@ -145,7 +148,10 @@ public class FlightHandler {
 			List<Flight> listOfArr = controller.getFlightsWithArrival(getAirport(arrivalIcao));
 			
 			GregorianCalendar cal = Formatter.stringToCalendar(date);
-			int dayConstraint = cal.get(GregorianCalendar.DAY_OF_WEEK);
+			int dayConstraint = cal.get(GregorianCalendar.DAY_OF_WEEK) - 1; // usually sunday is 1. but not in our convention
+			
+			if(dayConstraint == 0)	// change if it had been sunday
+				dayConstraint = 7;
 			
 			int timeConstraint = Formatter.stringToTime(time);
 			
