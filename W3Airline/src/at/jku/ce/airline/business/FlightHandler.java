@@ -173,6 +173,13 @@ public class FlightHandler {
 			return flights;
 	}
 	
+	/**
+	 * Filters the passed list according to passed criteria maxDuration and maxPrice
+	 * @param list
+	 * @param maxDuration
+	 * @param maxPrice
+	 * @return the filtered list of FlightCombo
+	 */
 	private List<FlightCombo> filterList(List<FlightCombo> list, String maxDuration, String maxPrice) {
 		List<FlightCombo> result = new LinkedList<FlightCombo>();
 		List<FlightCombo> temp = new LinkedList<FlightCombo>();
@@ -226,6 +233,11 @@ public class FlightHandler {
 		return airports;
 	}
 	
+	/**
+	 * Returns the appropriate comparator due to the passed parameter
+	 * @param sort
+	 * @return
+	 */
 	private Comparator<FlightCombo> getComparator(String sort) {
 		if(sort == null || sort.equals("") || sort.equals("null")) {
 			return null;
