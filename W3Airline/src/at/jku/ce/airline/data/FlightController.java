@@ -44,19 +44,19 @@ public class FlightController {
 		
 		UddiManager manager = UddiManager.getInstance();		
 		List<String> accessPoints = manager.getAllPublishedAccessPoints();
-
+		
 		// add flights to local field
 		for(String s : accessPoints) {
 			AirlineServiceImplService service;
 			try {
 				
 				//url validation
-				if(s.contains("AirlineServiceImplPort?wsdl") && s.contains("http://")){
+				if(s.contains("wsdl") && s.contains("http://")){
 				
 					service = new AirlineServiceImplService(new URL(s));
 					AirlineServiceImpl port = service.getAirlineServiceImplPort();
 				
-					accesspoints.put(port.getAirline().getName().replace(" ", ""), port);
+					accesspoints.put(port.getAirline().getName(), port);
 				
 					
 					List<Flight> list = port.getFlightplan();
