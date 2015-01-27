@@ -1,13 +1,15 @@
 package at.jku.ce.airline.business;
 
 public class Booking {
-
+//
 	private String flight1;
 	private String flight2;
 	private String fname;
 	private String lname;
 	private String id;
-	private javax.xml.datatype.XMLGregorianCalendar date;
+	private javax.xml.datatype.XMLGregorianCalendar date1;
+	private javax.xml.datatype.XMLGregorianCalendar date2;
+
 	
 	public Booking(){	
 	}
@@ -36,8 +38,12 @@ public class Booking {
 		this.id = id;
 	}
 	
-	public void setDate(javax.xml.datatype.XMLGregorianCalendar date){
-		this.date = date;
+	public void setDate1(javax.xml.datatype.XMLGregorianCalendar date1){
+		this.date1 = date1;
+	}
+	
+	public void setDate2(javax.xml.datatype.XMLGregorianCalendar date2){
+		this.date2 = date2;
 	}
 	
 	/*
@@ -62,16 +68,19 @@ public class Booking {
 		return flight2;
 	}
 	
-	public javax.xml.datatype.XMLGregorianCalendar getDate(){
-		return date;
+	public javax.xml.datatype.XMLGregorianCalendar getDate1(){
+		return date1;
+	}
+	
+	public javax.xml.datatype.XMLGregorianCalendar getDate2(){
+		return date2;
 	}
 	
 	public boolean bookingPossible(){
-		if(flight1.length() < 1 || fname.length() < 1 || lname.length() < 1 || id.length() < 1 || date == null){
+		if(flight1.length() < 1 || fname.length() < 1 || lname.length() < 1 || id.length() < 1 || date1 == null){
 			return false;
 		}else{
 			return true;
 		}
 	}
 }
-

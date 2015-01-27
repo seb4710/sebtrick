@@ -1,5 +1,5 @@
 package at.jku.ce.airline.business;
-
+  
 /**
  * this class offers functionality for booking and deleting bookings
  */
@@ -59,7 +59,6 @@ public class BookingHandler {
 			 * booking a single flight
 			 */
 			if(current.getFlight2() == null){
-				System.out.println("single flug");
 				String uuidBooking = getUuidBooking(current.getFlight1(),current.getFname(),current.getLname(),current.getId());	
 				pbrt = new PassengerBookingRecordTransaction();
 				pbre = new PassengerBookingRecordEntry(uuidBooking, current.getFname(), current.getLname(), current.getId());
@@ -69,18 +68,13 @@ public class BookingHandler {
 					/*
 					 * if passengerbookingrecord entry successful, call book method of involved airline
 					 */
-					if(pbrt.insertInto(pbre)){
-						System.out.println(current.getFlight1());
-						System.out.println(current.getFname());
-						System.out.println(current.getLname());
-						System.out.println(uuidBooking);
-						System.out.println(fc.getAirlineName(current.getFlight1()));
-						System.out.println(fc.getAccesspoint(fc.getAirlineName(current.getFlight1())));
-						
-						
-						if(fc.getAccesspoint(fc.getAirlineName(current.getFlight1())).bookFlight(uuidBooking, current.getFlight1(), current.getDate())){	
+					if(pbrt.insertInto(pbre)){						
+						if(fc.getAccesspoint(fc.getAirlineName(current.getFlight1())).bookFlight(uuidBooking, current.getFlight1(), current.getDate1())){	
 							current = null;
 							return uuidBooking;
+						}else{
+							pbrt.deleteFrom(uuidBooking);
+							return "Buchung fehlgeschlagen";
 						}
 					}	
 				}catch(Exception e){
@@ -88,7 +82,6 @@ public class BookingHandler {
 					return "Buchung fehlgeschlagen";
 				}
 			}else{
-				System.out.println("Doppelflug");
 				/*
 				 * booking a combined flight
 				 */
@@ -101,13 +94,14 @@ public class BookingHandler {
 					/*
 					 * if passengerbookingrecord entry successful, call book methods of involved airlines
 					 */
-					if(pbrt.insertInto(pbre)){
-					
-						
-						if(fc.getAccesspoint(fh.getAirlineName(current.getFlight1())).bookFlight(uuidBooking, current.getFlight1(), current.getDate()) &&
-						   fc.getAccesspoint(fh.getAirlineName(current.getFlight2())).bookFlight(uuidBooking, current.getFlight2(), current.getDate())){
+					if(pbrt.insertInto(pbre)){		
+						if(fc.getAccesspoint(fh.getAirlineName(current.getFlight1())).bookFlight(uuidBooking, current.getFlight1(), current.getDate1()) &&
+						   fc.getAccesspoint(fh.getAirlineName(current.getFlight2())).bookFlight(uuidBooking, current.getFlight2(), current.getDate2())){
 							current = null;
 							return uuidBooking;
+						}else{
+							pbrt.deleteFrom(uuidBooking);
+							return("Buchung fehlgeschlagen");
 						}
 					}	
 				}catch(Exception e){
@@ -117,7 +111,7 @@ public class BookingHandler {
 			}
 		}
 		return "Buchung fehlgeschlagen";	
-	}
+	}  
 			
 	/**
 	 * cancels a certain booking

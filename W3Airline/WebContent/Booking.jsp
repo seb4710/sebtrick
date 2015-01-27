@@ -6,6 +6,8 @@
 <%@ page import = "javax.xml.datatype.DatatypeFactory" %>
 <%@ page import = "java.text.*" %>
 <%@ page import = "at.jku.ce.airline.business.Booking" %>
+<%@ page import = "at.jku.ce.airline.business.FlightHandler" %>
+<%@ page import = "at.jku.ce.airline.business.Formatter" %>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -49,22 +51,40 @@
 	
 	<%
 		BookingHandler bh = BookingHandler.getInstance();
-		
+		FlightHandler fh = FlightHandler.getInstance();
+
 		/*
 		 * flightDate handling
 		 */
-		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-mm-dd");
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.GregorianCalendar flightDateGreg = new java.util.GregorianCalendar();
 		
-		if(!request.getParameter("date").equals("")){
-			String d = request.getParameter("date");
+		if(request.getParameter("date") != null){
+			String d=request.getParameter("date");
 			Date utilDateDeparture = sdfDate.parse(d);
 			flightDateGreg.setTime(utilDateDeparture);
-			javax.xml.datatype.XMLGregorianCalendar flightDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(flightDateGreg);
-			flightDate.toString(); 
-			bh.getCurrent().setDate(flightDate);
+			javax.xml.datatype.XMLGregorianCalendar flightDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(flightDateGreg);	
+			int hour = (int)Formatter.timeToMinutes(fh.getFlight(request.getParameter("first")).getDepartureTime().getTimeOfDay()) / 60;
+			int min = (int)Formatter.timeToMinutes(fh.getFlight(request.getParameter("first")).getDepartureTime().getTimeOfDay()) % 60;	
+			flightDate.setHour(hour);
+			flightDate.setMinute(min);
+			bh.getCurrent().setDate1(flightDate);
+			
+			/*
+			 * date of the second flight
+			 */
+			if(request.getParameter("second") != null){
+				hour = (int)Formatter.timeToMinutes(fh.getFlight(request.getParameter("second")).getDepartureTime().getTimeOfDay()) / 60;
+				min = (int)Formatter.timeToMinutes(fh.getFlight(request.getParameter("second")).getDepartureTime().getTimeOfDay()) % 60;	
+				flightDate.setHour(hour);
+				flightDate.setMinute(min);
+				bh.getCurrent().setDate2(flightDate);
+				flightDate  = null;		
+			}
+			
 		}else{
-			bh.getCurrent().setDate(null);
+			//makes a booking impossible
+			bh.getCurrent().setDate1(null);
 		}
 		
 		bh.getCurrent().setFlight1(request.getParameter("first"));
