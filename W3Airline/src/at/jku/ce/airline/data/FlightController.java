@@ -40,6 +40,9 @@ public class FlightController {
 		return instance;
 	}
 	
+	/**
+	 * do necessary initialisation of local attributes
+	 */
 	private void initialize() {
 		
 		UddiManager manager = UddiManager.getInstance();		
@@ -95,6 +98,12 @@ public class FlightController {
 		return flights;
 	}
 	
+	/**
+	 * Return all Flights with passed departure and arrival
+	 * @param departure
+	 * @param arrival
+	 * @return List of Flights according to parameters
+	 */
 	public List<Flight> getFlights(Airport departure, Airport arrival) {
 		List<Flight> list = new LinkedList<Flight>();
 		
@@ -107,6 +116,11 @@ public class FlightController {
 		return list;
 	}
 	
+	/**
+	 * Return Flights with passed Airport as arrival
+	 * @param port
+	 * @return List of appropriate Flights
+	 */
 	public List<Flight> getFlightsWithArrival(Airport port) {
 		List<Flight> list = new LinkedList<Flight>();
 		
@@ -118,6 +132,11 @@ public class FlightController {
 		return list;
 	}
 	
+	/**
+	 * Return Flights with passed Airport as departure
+	 * @param port
+	 * @return List of appropriate Flights
+	 */
 	public List<Flight> getFlightsWithDeparture(Airport port) {
 		List<Flight> list = new LinkedList<Flight>();
 		
@@ -129,6 +148,10 @@ public class FlightController {
 		return list;
 	}
 	
+	/**
+	 * Return all Flights of registered Airlines
+	 * @return Set of all Airports
+	 */
 	public Set<Airport> getAllAirports() {
 		Set<Airport> ports = new HashSet<Airport>();
 		Set<String> icaos = new HashSet<String>();
